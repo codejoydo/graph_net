@@ -96,7 +96,7 @@ def _graph_from_ts(ts):
     """
     num_nodes = ts.shape[1]
     # To reject hypothesis that model learns merely by clip length.
-    ts = ts[0:84,:] 
+    #ts = ts[0:84,:] 
     # Currently it is a fully connected graph. Will need to sparsify. 
     edges = [e for e in itertools.combinations(range(num_nodes), 2)]
     num_edges = len(edges)
