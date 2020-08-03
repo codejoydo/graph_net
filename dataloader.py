@@ -10,7 +10,7 @@ from sklearn.decomposition import PCA
 from utils import _get_parcel, _get_behavioral
 from cc_utils import _get_clip_labels
 
-K_RUNS = 1 # changed from 4 to 1
+K_RUNS = 4 # changed from 4 to 1
 K_SEED = 330
 
 def _get_clip_seq(df, subject_list, args):
@@ -44,7 +44,7 @@ def _get_clip_seq(df, subject_list, args):
                         seq = (1/np.std(seq))*(seq - np.mean(seq))
 
                     X.append(seq)
-                    y.append(label_seq)
+                    y.append(label_seq[0])
             else:
                 seq = df[(df['Subject']==subject) & 
                     (df['y'] == i_class)][features].values
@@ -55,7 +55,7 @@ def _get_clip_seq(df, subject_list, args):
                     seq = (1/np.std(seq))*(seq - np.mean(seq))
                 
                 X.append(seq)
-                y.append(label_seq)
+                y.append(label_seq[0])
             
     X_len = [len(seq) for seq in X]
 
