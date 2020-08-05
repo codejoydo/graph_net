@@ -2,6 +2,9 @@ import itertools
 from graph_nets import utils_tf
 from dataloader import _clip_class_df, _get_clip_seq 
 import numpy as np
+import networkx as nx
+
+NX_SEED = 1
 
 class ARGS():
     pass
@@ -76,10 +79,11 @@ def train_val_test_split(G, y, num_train, num_val, num_test, num_clips, num_subj
     
     return (train_G, train_y, val_G, val_y, test_G, test_y)
 
-def _graph_from_ts(ts):
+def _graph_from_ts(ts, edges):
     """ Construct a graph with nodes as ROIs
     Args: 
         ts: np.array((num_timepoints, num_rois)) timeseries matrix
+        edges: [num_edges] list of edges
     Return:
         data_dict: dictionary containing
             "globals"
@@ -96,9 +100,8 @@ def _graph_from_ts(ts):
     """
     num_nodes = ts.shape[1]
     # To reject hypothesis that model learns merely by clip length.
-    #ts = ts[0:84,:] 
-    # Currently it is a fully connected graph. Will need to sparsify. 
-    edges = [e for e in itertools.combinations(range(num_nodes), 2)]
+    ts = ts[0:84,:] 
+    
     num_edges = len(edges)
     data_dict = {}
     
@@ -110,19 +113,25 @@ def _graph_from_ts(ts):
     return data_dict
     
     
-def clip_graphs(X):
+def clip_graphs(X, prob_edge=0.1):
     """ Convert list of timeseries matrices to list of graphs
     Args:
         X: [num_subjs x num_clips] list of timeseries matrices
+        prob_edge: probability threshold for generating a random graph
     Return:
         graphs_tuple: [num_subjs x num_clips] list of timeseries graphs
     """
+    num_nodes = X[0].shape[1]
+    graph = nx.fast_gnp_random_graph(n=num_nodes,
+                        p=prob_edge,
+                        seed=NX_SEED)
+    edges = [e for e in graph.edges]
     
     num_samples = len(X)
     data_dict_list = []
     
     for idx_sample in range(num_samples):
-        data_dict_list.append(_graph_from_ts(X[idx_sample]))
+        data_dict_list.append(_graph_from_ts(X[idx_sample], edges))
     
     graphs_tuple = utils_tf.data_dicts_to_graphs_tuple(data_dict_list)
     
