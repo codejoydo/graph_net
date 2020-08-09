@@ -1,4 +1,5 @@
 import itertools
+from graph_nets import utils_np
 from graph_nets import utils_tf
 from dataloader import _clip_class_df, _get_clip_seq 
 import numpy as np
@@ -62,19 +63,22 @@ def train_val_test_split(G, y, num_train, num_val, num_test, num_clips, num_subj
         val_Y
         test_G
         test_Y
+    Note:
+        returned graphs are in dict_list format, 
+        they need to be converted to graphs_tuple during while running model
     """
     start_tr = 0
     end_tr = start_va = num_train
     end_va = start_te = num_train + num_val
     end_te = num_train + num_val + num_test
     
-    train_G = utils_tf.get_graph(G, slice(start_tr, end_tr))
+    train_G = G[start_tr : end_tr]
     train_y = y[start_tr : end_tr, :]
     
-    val_G = utils_tf.get_graph(G, slice(start_va, end_va))
+    val_G = G[start_va : end_va]
     val_y = y[start_va : end_va, :]
     
-    test_G = utils_tf.get_graph(G, slice(start_te, end_te))
+    test_G = G[start_te : end_te]
     test_y = y[start_te : end_te, :]
     
     return (train_G, train_y, val_G, val_y, test_G, test_y)
@@ -120,6 +124,9 @@ def clip_graphs(X, prob_edge=0.1):
         prob_edge: probability threshold for generating a random graph
     Return:
         graphs_tuple: [num_subjs x num_clips] list of timeseries graphs
+    Note:
+        returned graphs are in dict_list format, 
+        they need to be converted to graphs_tuple during while running model
     """
     num_nodes = X[0].shape[1]
     graph = nx.fast_gnp_random_graph(n=num_nodes,
@@ -133,9 +140,7 @@ def clip_graphs(X, prob_edge=0.1):
     for idx_sample in range(num_samples):
         data_dict_list.append(_graph_from_ts(X[idx_sample], edges))
     
-    graphs_tuple = utils_tf.data_dicts_to_graphs_tuple(data_dict_list)
-    
-    return graphs_tuple
+    return data_dict_list
 
 
 
