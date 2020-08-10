@@ -46,7 +46,7 @@ def pad_data(M):
         Z[enu][ : row.shape[0], ] += row 
     return Z
 
-def train_val_test_split(G, y, num_train, num_val, num_test, num_clips, num_subjs):
+def train_val_test_split(G, y, num_train, num_val, num_test):
     """ Split graphs_tuple and labels into train-val-test sets
     Args:
         G: graphs_tuple object
@@ -54,8 +54,6 @@ def train_val_test_split(G, y, num_train, num_val, num_test, num_clips, num_subj
         num_train: number of training samples
         num_val: number of validation samples
         num_test: number of testing samples
-        num_clips: total number of clips
-        num_subjs: total number of subjects
     Return:
         train_G
         train_y
