@@ -104,3 +104,55 @@ class NLNNClassifer(snt.Module):
     
     outputs = self._fc(outputs)
     return outputs
+
+class NLNNProcessDecode(snt.Module):
+  """ process-decode model.
+  
+  The model includes two components:
+  - A "Core" graph net, which performs N rounds of processing (message-passing)
+    steps. The input to the Core is the concatenation of the Encoder's output
+    and the previous output of the Core (labeled "Hidden(t)" below, where "t" is
+    the processing step). This is NLNN graph net.
+  - The "Decoder" is a NLNN graph net.
+    
+                      Hidden(t)   Hidden(t+1)
+                         |            ^
+            *---------*  |  *------*  |  *---------*
+            |         |  |  |      |  |  |         |
+  Input --->| Encoder |  *->| Core |--*->| Decoder |---> Output(t)
+            |         |---->|      |     |         |
+            *---------*     *------*     *---------*
+  """
+
+  def __init__(self, 
+               num_nodes, 
+               k_layers,
+               num_processing_steps=1):
+    super(NLNNProcessDecode, self).__init__()
+    
+    self._num_nodes = num_nodes
+    self._k_layers = k_layers
+    self._num_proc_steps = num_processing_steps
+    
+    self._encoder = NLNN(
+        edge_model_fn=lambda: snt.nets.MLP(self._k_layers),
+        node_model_fn=lambda: snt.nets.MLP(self._k_layers))
+    self._core = NLNN(
+        edge_model_fn=lambda: snt.nets.MLP(self._k_layers),
+        node_model_fn=lambda: snt.nets.MLP(self._k_layers))
+    self._decoder = NLNN(
+        edge_model_fn=lambda: snt.nets.MLP(self._k_layers),
+        node_model_fn=lambda: snt.nets.MLP([1]))
+    
+  def __call__(self, inputs):
+    outputs = self._encoder(inputs)
+    for _ in range(self._num_proc_steps):
+        outputs = self._core(outputs)
+        
+    outputs = self._decoder(outputs).nodes
+    
+    # outputs is [batch_size x num_nodes, 1] matrix 
+    # reshape it into [batch_size, num_nodes] ndarray
+    outputs = tf.reshape(outputs, [-1, self._num_nodes])
+    
+    return outputs

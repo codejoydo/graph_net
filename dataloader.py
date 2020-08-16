@@ -10,7 +10,7 @@ from sklearn.decomposition import PCA
 from utils import _get_parcel, _get_behavioral
 from cc_utils import _get_clip_labels
 
-K_RUNS = 4 # changed from 4 to 1
+K_RUNS = 1 # changed from 4 to 1
 K_SEED = 330
 
 def _get_clip_seq(df, subject_list, args):
@@ -59,8 +59,6 @@ def _get_clip_seq(df, subject_list, args):
             
     X_len = [len(seq) for seq in X]
 
-    # TODO: pad sequences
-    
     return X, X_len, y
 
 def _clip_class_df(args):

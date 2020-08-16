@@ -101,8 +101,8 @@ def _graph_from_ts(ts, edges):
     Thus the nodes attributes of the graph is a matrix of size [num_rois, max_length].
     """
     num_nodes = ts.shape[1]
-    # To reject hypothesis that model learns merely by clip length.
-    ts = ts[0:84,:] 
+#     # To reject hypothesis that model learns merely by clip length.
+#     ts = ts[0:84,:] 
     
     num_edges = len(edges)
     data_dict = {}
