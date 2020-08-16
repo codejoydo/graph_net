@@ -1,0 +1,775 @@
+
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Data &#8212; ANN on fMRI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
+    <link href="_static/css/index.css" rel="stylesheet">
+    <link rel="stylesheet" href="_static/sphinx-book-theme.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/sphinx-book-theme.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/mystnb.js"></script>
+    <script src="_static/sphinx-book-theme.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Load data" href="NLNN_CC_Randomization.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="docsearch:language" content="en">
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="index.html">
+  
+  
+  <h1 class="site-logo" id="site-title">ANN on fMRI</h1>
+  
+</a>
+</div>
+
+<form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="#">
+   Data
+  </a>
+ </li>
+</ul>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="NLNN_CC_Randomization.html">
+   Load data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="NLNN_CC_Randomization.html#create-graphs-from-data">
+   Create graphs from data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="NLNN_CC_Randomization.html#performance-evaluation">
+   Performance evaluation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="NLNN_Trajectory_simulation.html">
+   Load data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="NLNN_Trajectory_simulation.html#create-graphs-from-data">
+   Create graphs from data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="NLNN_Trajectory_simulation.html#performance-evaluation">
+   Performance evaluation
+  </a>
+ </li>
+</ul>
+
+</nav>
+
+ <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        <div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/NLNN_Clip_Classifier.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+    
+</div>
+        <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/codejoydo/graph_net"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        
+        
+    </div>
+</div>
+
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                data-placement="bottom" onclick="toggleFullScreen()" title="Fullscreen mode"><i
+                    class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/codejoydo/graph_net/master?urlpath=tree/NLNN_Clip_Classifier.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+    </div>
+
+    <!-- Table of contents -->
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            
+        </nav>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span><span class="p">,</span> <span class="n">HTML</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">absolute_import</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">division</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="kn">from</span> <span class="nn">graph_nets</span> <span class="kn">import</span> <span class="n">utils_np</span>
+<span class="kn">from</span> <span class="nn">graph_nets</span> <span class="kn">import</span> <span class="n">utils_tf</span>
+<span class="kn">from</span> <span class="nn">graph_nets</span> <span class="kn">import</span> <span class="n">modules</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="kn">import</span> <span class="nn">sonnet</span> <span class="k">as</span> <span class="nn">snt</span>
+<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+
+<span class="kn">from</span> <span class="nn">data_processing_utils</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">NLNN</span> <span class="kn">import</span> <span class="o">*</span>
+ 
+<span class="n">SEED</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">SEED</span><span class="p">)</span>
+<span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">set_seed</span><span class="p">(</span><span class="n">SEED</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="data">
+<h1>Data<a class="headerlink" href="#data" title="Permalink to this headline">¶</a></h1>
+<p>The dataset consists of fMRI time-series activations</p>
+<ul class="simple">
+<li><p>300 ROIs: schafer 300 ROI parcellation,</p></li>
+<li><p>176 participants,</p></li>
+<li><p>each participant watches 15 movie clips.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">videoclip_table</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data/videoclip_tr_lookup.csv&quot;</span><span class="p">)</span>
+<span class="n">videoclip_table</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>clipno_overall</th>
+      <th>run</th>
+      <th>clipno_in_run</th>
+      <th>clip_name</th>
+      <th>start_tr</th>
+      <th>stop_tr</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>MOVIE1_7T_AP</td>
+      <td>1</td>
+      <td>twomen</td>
+      <td>20.0000</td>
+      <td>264.0417</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>MOVIE1_7T_AP</td>
+      <td>2</td>
+      <td>bridgeville</td>
+      <td>284.0833</td>
+      <td>505.7083</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>MOVIE1_7T_AP</td>
+      <td>3</td>
+      <td>pockets</td>
+      <td>525.7500</td>
+      <td>713.7500</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>MOVIE1_7T_AP</td>
+      <td>4</td>
+      <td>overcome</td>
+      <td>733.7917</td>
+      <td>797.5417</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>MOVIE1_7T_AP</td>
+      <td>5</td>
+      <td>testretest1</td>
+      <td>817.5833</td>
+      <td>900.9583</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>6</td>
+      <td>MOVIE2_7T_PA</td>
+      <td>1</td>
+      <td>inception</td>
+      <td>20.0000</td>
+      <td>246.7083</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>7</td>
+      <td>MOVIE2_7T_PA</td>
+      <td>2</td>
+      <td>socialnet</td>
+      <td>266.7500</td>
+      <td>525.3333</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>8</td>
+      <td>MOVIE2_7T_PA</td>
+      <td>3</td>
+      <td>oceans</td>
+      <td>545.3750</td>
+      <td>794.5833</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>9</td>
+      <td>MOVIE2_7T_PA</td>
+      <td>4</td>
+      <td>testretest2</td>
+      <td>814.5833</td>
+      <td>897.9583</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>10</td>
+      <td>MOVIE3_7T_PA</td>
+      <td>1</td>
+      <td>flower</td>
+      <td>20.0000</td>
+      <td>200.5417</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>11</td>
+      <td>MOVIE3_7T_PA</td>
+      <td>2</td>
+      <td>hotel</td>
+      <td>220.5833</td>
+      <td>405.0833</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>12</td>
+      <td>MOVIE3_7T_PA</td>
+      <td>3</td>
+      <td>garden</td>
+      <td>425.1250</td>
+      <td>629.2083</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>13</td>
+      <td>MOVIE3_7T_PA</td>
+      <td>4</td>
+      <td>dreary</td>
+      <td>649.2500</td>
+      <td>791.7500</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>14</td>
+      <td>MOVIE3_7T_PA</td>
+      <td>5</td>
+      <td>testretest3</td>
+      <td>811.5833</td>
+      <td>894.9583</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>15</td>
+      <td>MOVIE4_7T_AP</td>
+      <td>1</td>
+      <td>homealone</td>
+      <td>20.0000</td>
+      <td>252.2917</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>16</td>
+      <td>MOVIE4_7T_AP</td>
+      <td>2</td>
+      <td>brokovich</td>
+      <td>272.3333</td>
+      <td>502.1667</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>17</td>
+      <td>MOVIE4_7T_AP</td>
+      <td>3</td>
+      <td>starwars</td>
+      <td>522.2083</td>
+      <td>777.3750</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>18</td>
+      <td>MOVIE4_7T_AP</td>
+      <td>4</td>
+      <td>testretest4</td>
+      <td>797.5833</td>
+      <td>880.9583</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><strong>In our dataset, each data sample is represented as a graph</strong></p>
+<ul class="simple">
+<li><p>each ROI is a node, i.e. we have 300 nodes in the graph</p></li>
+<li><p>attribute of each node is its entire time-series</p></li>
+<li><p>all nodes are connected pair wise</p></li>
+<li><p>there is <strong>no</strong> edge attribute</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load dataset </span>
+<span class="n">X</span><span class="p">,</span> <span class="n">X_len</span><span class="p">,</span> <span class="n">clip_y</span><span class="p">,</span> <span class="n">num_subjs</span><span class="p">,</span> <span class="n">num_clips</span> <span class="o">=</span> <span class="n">get_data</span><span class="p">()</span>
+
+<span class="c1"># Pad each time-series with zeros to equalize lengths</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">pad_data</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="c1"># Create graphs from data</span>
+<span class="n">prob_edge</span> <span class="o">=</span> <span class="mf">1.000</span>
+<span class="n">graphs_tuple</span> <span class="o">=</span> <span class="n">clip_graphs</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> 
+                           <span class="n">prob_edge</span><span class="o">=</span><span class="n">prob_edge</span><span class="p">)</span>
+
+<span class="c1"># Convert clip labels to one-hot vectors</span>
+<span class="n">clip_y_oh</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">one_hot</span><span class="p">(</span><span class="n">clip_y</span><span class="p">,</span> <span class="n">num_clips</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+
+<span class="c1"># Train, validation, test split</span>
+<span class="n">num_train</span> <span class="o">=</span> <span class="mi">90</span> <span class="o">*</span> <span class="n">num_clips</span>
+<span class="n">num_val</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">num_clips</span>
+<span class="n">num_test</span> <span class="o">=</span> <span class="mi">76</span> <span class="o">*</span> <span class="n">num_clips</span>
+
+<span class="n">train_G</span><span class="p">,</span> <span class="n">train_y</span><span class="p">,</span> <span class="n">val_G</span><span class="p">,</span> <span class="n">val_y</span><span class="p">,</span> <span class="n">test_G</span><span class="p">,</span> <span class="n">test_y</span> <span class="o">=</span> <span class="n">train_val_test_split</span><span class="p">(</span><span class="n">graphs_tuple</span><span class="p">,</span>
+                                                                       <span class="n">clip_y_oh</span><span class="p">,</span>
+                                                                       <span class="n">num_train</span><span class="p">,</span>
+                                                                       <span class="n">num_val</span><span class="p">,</span>
+                                                                       <span class="n">num_test</span><span class="p">,</span>
+                                                                       <span class="n">num_clips</span><span class="p">,</span>
+                                                                       <span class="n">num_subjs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>loading run 1/4
+loading run 2/4
+loading run 3/4
+loading run 4/4
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="model">
+<h1>Model<a class="headerlink" href="#model" title="Permalink to this headline">¶</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">HTML</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;&lt;img src=&quot;NLNN.png&quot;&gt;&#39;&#39;&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><img src="NLNN.png"></div></div>
+</div>
+<ul class="simple">
+<li><p>Non-local neural network (<strong>NLNN</strong>) is a variant of Graph Network.</p></li>
+<li><p>In our model, the <strong>NLNN</strong> takes as <em>input a graph</em> with node and edge attributes and <em>outputs a graph</em> with updated node attributes.</p></li>
+</ul>
+<p><strong>NLNN algorithm</strong></p>
+<ol class="simple">
+<li><p>For each edge <span class="math notranslate nohighlight">\(k\)</span> in the input graph,</p>
+<ul class="simple">
+<li><p>compute updated edge attributes<br />
+<span class="math notranslate nohighlight">\(\textbf{e}_{k}^{\prime} = \phi^{e} \left( \left[ \textbf{v}_{s_k}, \textbf{v}_{r_k} \right] \right)\)</span>,<br />
+where <span class="math notranslate nohighlight">\(\textbf{v}_{s_k}, \textbf{v}_{r_k}\)</span> are sender and receiver nodes attributes resp. of edge <span class="math notranslate nohighlight">\(k\)</span>,<br />
+<span class="math notranslate nohighlight">\(\left[ \cdot, \cdot \right]\)</span> denotes concatenation of attributes.</p></li>
+</ul>
+</li>
+<li><p>For each vertex <span class="math notranslate nohighlight">\(i\)</span> in the input graph,</p>
+<ul class="simple">
+<li><p>aggregate attributes of all edges adjacent to node <span class="math notranslate nohighlight">\(i\)</span><br />
+<span class="math notranslate nohighlight">\(\bar{\textbf{e}}_{i}^{\prime} = \rho^{e \rightarrow v} \left( \textbf{E}_{i}^{\prime} \right)\)</span>,<br />
+where <span class="math notranslate nohighlight">\(\textbf{E}_{i}^{\prime}\)</span> is set of received and sent edge attributes.</p></li>
+<li><p>compute updated node attributes<br />
+<span class="math notranslate nohighlight">\(\textbf{v}_{i}^{\prime} = \phi^{v} \left( \left[ \textbf{v}_{i}, \bar{\textbf{e}}_{i}^{\prime} \right] \right)\)</span>.</p></li>
+</ul>
+</li>
+</ol>
+<p><strong>Update functions</strong></p>
+<ol class="simple">
+<li><p><span class="math notranslate nohighlight">\(\phi^{e}\)</span>: Single Layer Perceptron with output attribute size 16.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\phi^{v}\)</span>: Single Layer Perceptron with output attribute size 16.</p></li>
+</ol>
+<p><strong>Aggregate functions</strong></p>
+<ol class="simple">
+<li><p><span class="math notranslate nohighlight">\(\rho^{e \rightarrow v}\)</span>: summation.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create model</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">NLNNClassifer</span><span class="p">(</span><span class="n">num_nodes</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> 
+                      <span class="n">k_linear</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> 
+                      <span class="n">num_classes</span><span class="o">=</span><span class="n">num_clips</span><span class="p">)</span>
+
+<span class="c1"># Define loss and gradient functions</span>
+<span class="n">loss_object</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">CategoricalCrossentropy</span><span class="p">(</span><span class="n">from_logits</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">loss</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+  <span class="c1"># training=training is needed only if there are layers with different</span>
+  <span class="c1"># behavior during training versus inference (e.g. Dropout).</span>
+  <span class="n">y_</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">loss_object</span><span class="p">(</span><span class="n">y_true</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">y_pred</span><span class="o">=</span><span class="n">y_</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">grad</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">targets</span><span class="p">):</span>
+  <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">GradientTape</span><span class="p">()</span> <span class="k">as</span> <span class="n">tape</span><span class="p">:</span>
+    <span class="n">loss_value</span> <span class="o">=</span> <span class="n">loss</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">targets</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">loss_value</span><span class="p">,</span> <span class="n">tape</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">loss_value</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">trainable_variables</span><span class="p">)</span>
+
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">optimizers</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="performance-evaluation">
+<h1>Performance evaluation<a class="headerlink" href="#performance-evaluation" title="Permalink to this headline">¶</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">train_loss_results</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">train_accuracy_results</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">val_loss_results</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">val_accuracy_results</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="n">template</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Epoch </span><span class="si">{:03d}</span><span class="s2">: &quot;</span> 
+            <span class="s2">&quot;Train Loss: </span><span class="si">{:.3f}</span><span class="s2">, &quot;</span> 
+            <span class="s2">&quot;Train Accuracy: </span><span class="si">{:.3%}</span><span class="s2">, &quot;</span> 
+            <span class="s2">&quot;Validation Loss: </span><span class="si">{:.3f}</span><span class="s2">, &quot;</span>
+            <span class="s2">&quot;Validation Accuracy: </span><span class="si">{:.3%}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">num_epochs</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">batch_size</span> <span class="o">=</span> <span class="mi">8</span>
+
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_epochs</span><span class="p">):</span>
+    <span class="n">train_loss_avg</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">Mean</span><span class="p">()</span>
+    <span class="n">train_accuracy</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">CategoricalAccuracy</span><span class="p">()</span>
+    <span class="n">val_loss_avg</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">Mean</span><span class="p">()</span>
+    <span class="n">val_accuracy</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">CategoricalAccuracy</span><span class="p">()</span>
+
+    <span class="c1"># Training loop - using batches of &lt;batch_size&gt;</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">num_train</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">):</span>
+        
+        <span class="c1"># Optimize the model</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">utils_tf</span><span class="o">.</span><span class="n">get_graph</span><span class="p">(</span><span class="n">train_G</span><span class="p">,</span> <span class="nb">slice</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="n">batch_size</span><span class="p">))</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">train_y</span><span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="n">batch_size</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="n">loss_value</span><span class="p">,</span> <span class="n">grads</span> <span class="o">=</span> <span class="n">grad</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+        
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">apply_gradients</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">grads</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">trainable_variables</span><span class="p">))</span>
+
+        <span class="c1"># Track progress: Add current batch loss</span>
+        <span class="n">train_loss_avg</span><span class="o">.</span><span class="n">update_state</span><span class="p">(</span><span class="n">loss_value</span><span class="p">)</span>  
+        <span class="c1"># Compare predicted label to actual label</span>
+        <span class="n">train_accuracy</span><span class="o">.</span><span class="n">update_state</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+
+    <span class="c1"># Log training loss and accuracy</span>
+    <span class="n">train_loss_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">train_loss_avg</span><span class="o">.</span><span class="n">result</span><span class="p">())</span>
+    <span class="n">train_accuracy_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">train_accuracy</span><span class="o">.</span><span class="n">result</span><span class="p">())</span>
+    
+    <span class="c1"># Validation loop</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">num_val</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">utils_tf</span><span class="o">.</span><span class="n">get_graph</span><span class="p">(</span><span class="n">val_G</span><span class="p">,</span> <span class="nb">slice</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="n">batch_size</span><span class="p">))</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">val_y</span><span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="n">batch_size</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="n">logits</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        
+        <span class="c1"># Track progress</span>
+        <span class="n">val_loss_value</span> <span class="o">=</span> <span class="n">loss</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+        <span class="n">val_loss_avg</span><span class="o">.</span><span class="n">update_state</span><span class="p">(</span><span class="n">val_loss_value</span><span class="p">)</span>
+        <span class="n">val_accuracy</span><span class="o">.</span><span class="n">update_state</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+        
+    <span class="c1"># Log validation loss and accuracy</span>
+    <span class="n">val_loss_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">val_loss_avg</span><span class="o">.</span><span class="n">result</span><span class="p">())</span>
+    <span class="n">val_accuracy_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">val_accuracy</span><span class="o">.</span><span class="n">result</span><span class="p">())</span>
+
+    <span class="k">if</span> <span class="n">epoch</span> <span class="o">%</span> <span class="mi">1</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">epoch</span><span class="p">,</span>
+                              <span class="n">train_loss_avg</span><span class="o">.</span><span class="n">result</span><span class="p">(),</span>
+                              <span class="n">train_accuracy</span><span class="o">.</span><span class="n">result</span><span class="p">(),</span>
+                              <span class="n">val_loss_avg</span><span class="o">.</span><span class="n">result</span><span class="p">(),</span>
+                              <span class="n">val_accuracy</span><span class="o">.</span><span class="n">result</span><span class="p">()))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Epoch 000: Train Loss: 26.554, Train Accuracy: 86.074%, Validation Loss: 8.571, Validation Accuracy: 90.667%
+Epoch 001: Train Loss: 4.570, Train Accuracy: 98.074%, Validation Loss: 11.567, Validation Accuracy: 92.667%
+Epoch 002: Train Loss: 2.408, Train Accuracy: 99.259%, Validation Loss: 6.732, Validation Accuracy: 93.333%
+Epoch 003: Train Loss: 1.042, Train Accuracy: 99.704%, Validation Loss: 7.314, Validation Accuracy: 95.333%
+Epoch 004: Train Loss: 1.143, Train Accuracy: 99.926%, Validation Loss: 5.460, Validation Accuracy: 95.333%
+Epoch 005: Train Loss: 1.788, Train Accuracy: 99.778%, Validation Loss: 9.934, Validation Accuracy: 94.000%
+Epoch 006: Train Loss: 2.728, Train Accuracy: 99.778%, Validation Loss: 12.433, Validation Accuracy: 91.333%
+Epoch 007: Train Loss: 3.541, Train Accuracy: 99.481%, Validation Loss: 29.370, Validation Accuracy: 89.333%
+Epoch 008: Train Loss: 6.617, Train Accuracy: 99.481%, Validation Loss: 10.819, Validation Accuracy: 96.000%
+Epoch 009: Train Loss: 3.515, Train Accuracy: 99.407%, Validation Loss: 14.463, Validation Accuracy: 94.000%
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Training metrics</span>
+<span class="n">fig_tr</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">fig_tr</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;Training Metrics&#39;</span><span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Loss&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">train_loss_results</span><span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Accuracy&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Epoch&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">train_accuracy_results</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Validation metrics</span>
+<span class="n">fig_val</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">fig_val</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;Validation Metrics&#39;</span><span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Loss&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">val_loss_results</span><span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Accuracy&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Epoch&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">val_accuracy_results</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/NLNN_Clip_Classifier_12_0.png" src="_images/NLNN_Clip_Classifier_12_0.png" />
+<img alt="_images/NLNN_Clip_Classifier_12_1.png" src="_images/NLNN_Clip_Classifier_12_1.png" />
+</div>
+</div>
+<div class="section" id="testing-accuracy">
+<h2>Testing accuracy<a class="headerlink" href="#testing-accuracy" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">test_accuracy</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">CategoricalAccuracy</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">num_test</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">utils_tf</span><span class="o">.</span><span class="n">get_graph</span><span class="p">(</span><span class="n">test_G</span><span class="p">,</span> <span class="nb">slice</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="n">batch_size</span><span class="p">))</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">test_y</span><span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="n">batch_size</span><span class="p">,</span> <span class="p">:]</span>
+    <span class="n">logits</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    
+    <span class="n">test_accuracy</span><span class="o">.</span><span class="n">update_state</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Test set accuracy: </span><span class="si">{:.3%}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">test_accuracy</span><span class="o">.</span><span class="n">result</span><span class="p">()))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Test set accuracy: 92.895%
+</pre></div>
+</div>
+</div>
+</div>
+<div class="toctree-wrapper compound">
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+    <a class='right-next' id="next-link" href="NLNN_CC_Randomization.html" title="next page">Load data</a>
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Govinda and Joyneel<br/>
+        
+            &copy; Copyright 2020.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    <script src="_static/js/index.js"></script>
+    
+  </body>
+</html>
