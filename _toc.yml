@@ -1,7 +1,6 @@
-- file: Project
-
 - chapter: Graph Networks
   sections:
           - file: NLNN_Clip_Classifier
+          - file: NLNN_CC_Randomization
           - file: NLNN_Trajectory_simulation
 
