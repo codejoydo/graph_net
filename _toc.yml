@@ -1,0 +1,7 @@
+- file: Project
+
+- chapter: Graph Networks
+  sections:
+          - file: NLNN_Clip_Classifier
+          - file: NLNN_Trajectory_simulation
+
