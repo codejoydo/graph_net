@@ -1,8 +1,6 @@
-- file: intro
-
-chapter: Non-local neural network
-    sections:
-    - file: NLNN
-    - file: NLNN_Clip_Classifier
-    - file: NLNN_CC_Randomization
-    - file: NLNN_Trajectory_simulation
+file: intro
+chapters:
+- file: NLNN_intro
+- file: NLNN_Clip_Classifier
+- file: NLNN_CC_Randomization
+- file: NLNN_Trajectory_simulation
