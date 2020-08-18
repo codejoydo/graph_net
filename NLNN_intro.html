@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>graph_net &#8212; ANN on fMRI</title>
+    <title>What is NLNN? &#8212; Graph Networks on fMRI</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
     <link href="_static/css/index.css" rel="stylesheet">
     <link rel="stylesheet" href="_static/sphinx-book-theme.css" type="text/css" />
@@ -58,7 +58,7 @@
 <a class="navbar-brand text-wrap" href="index.html">
   
   
-  <h1 class="site-logo" id="site-title">ANN on fMRI</h1>
+  <h1 class="site-logo" id="site-title">Graph Networks on fMRI</h1>
   
 </a>
 </div>
@@ -72,7 +72,7 @@
   <ul class="nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="#">
-   graph_net
+   What is NLNN?
   </a>
  </li>
 </ul>
@@ -116,7 +116,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/intro.md"><button type="button"
+        <a class="dropdown-buttons" href="_sources/NLNN_intro.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -126,19 +126,6 @@
     
 </div>
         <!-- Source interaction buttons -->
-
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
-    <div class="dropdown-buttons sourcebuttons">
-        <a class="repository-button"
-            href="https://github.com/codejoydo/graph_net"><button type="button" class="btn btn-secondary topbarbtn"
-                data-toggle="tooltip" data-placement="left" title="Source repository"><i
-                    class="fab fa-github"></i>repository</button></a>
-        
-        
-    </div>
-</div>
 
 
         <!-- Full screen (wrap in <a> to have style consistency -->
@@ -165,9 +152,42 @@
         
               <div>
                 
-  <div class="section" id="graph-net">
-<h1>graph_net<a class="headerlink" href="#graph-net" title="Permalink to this headline">¶</a></h1>
-<p>Application of graph networks on fMRI datasets</p>
+  <div class="section" id="what-is-nlnn">
+<h1>What is NLNN?<a class="headerlink" href="#what-is-nlnn" title="Permalink to this headline">¶</a></h1>
+<p><img alt="Non-local neural network" src="_images/NLNN.png" /></p>
+<ul class="simple">
+<li><p>Non-local neural network (<strong>NLNN</strong>) is a variant of Graph Network.</p></li>
+<li><p>In our model, the <strong>NLNN</strong> takes as <em>input a graph</em> with node and edge attributes and <em>outputs a graph</em> with updated node attributes.</p></li>
+</ul>
+<p><strong>NLNN algorithm</strong></p>
+<ol class="simple">
+<li><p>For each edge <span class="math notranslate nohighlight">\(k\)</span> in the input graph,</p>
+<ul class="simple">
+<li><p>compute updated edge attributes<br />
+<span class="math notranslate nohighlight">\(\textbf{e}_{k}^{\prime} = \phi^{e} \left( \left[ \textbf{v}_{s_k}, \textbf{v}_{r_k} \right] \right)\)</span>,<br />
+where <span class="math notranslate nohighlight">\(\textbf{v}_{s_k}, \textbf{v}_{r_k}\)</span> are sender and receiver nodes attributes resp. of edge <span class="math notranslate nohighlight">\(k\)</span>,<br />
+<span class="math notranslate nohighlight">\(\left[ \cdot, \cdot \right]\)</span> denotes concatenation of attributes.</p></li>
+</ul>
+</li>
+<li><p>For each vertex <span class="math notranslate nohighlight">\(i\)</span> in the input graph,</p>
+<ul class="simple">
+<li><p>aggregate attributes of all edges adjacent to node <span class="math notranslate nohighlight">\(i\)</span><br />
+<span class="math notranslate nohighlight">\(\bar{\textbf{e}}_{i}^{\prime} = \rho^{e \rightarrow v} \left( \textbf{E}_{i}^{\prime} \right)\)</span>,<br />
+where <span class="math notranslate nohighlight">\(\textbf{E}_{i}^{\prime}\)</span> is set of received and sent edge attributes.</p></li>
+<li><p>compute updated node attributes<br />
+<span class="math notranslate nohighlight">\(\textbf{v}_{i}^{\prime} = \phi^{v} \left( \left[ \textbf{v}_{i}, \bar{\textbf{e}}_{i}^{\prime} \right] \right)\)</span>.</p></li>
+</ul>
+</li>
+</ol>
+<p><strong>Update functions</strong></p>
+<ol class="simple">
+<li><p><span class="math notranslate nohighlight">\(\phi^{e}\)</span>: Single Layer Perceptron with output attribute size 16.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\phi^{v}\)</span>: Single Layer Perceptron with output attribute size 16.</p></li>
+</ol>
+<p><strong>Aggregate functions</strong></p>
+<ol class="simple">
+<li><p><span class="math notranslate nohighlight">\(\rho^{e \rightarrow v}\)</span>: summation.</p></li>
+</ol>
 </div>
 
     <script type="text/x-thebe-config">
