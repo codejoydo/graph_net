@@ -39,8 +39,6 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Trajectory Simulation" href="NLNN_Trajectory_simulation.html" />
-    <link rel="prev" title="Clip Classifier" href="NLNN_Clip_Classifier.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
@@ -78,29 +76,6 @@
   </a>
  </li>
 </ul>
-<ul class="current nav sidenav_l1">
- <li class="toctree-l1">
-  <a class="reference internal" href="NLNN_Clip_Classifier.html">
-   Clip Classifier
-  </a>
- </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   Breaking Down Classifier
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="NLNN_Trajectory_simulation.html">
-   Trajectory Simulation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="NLNN_Trajectory_simulation.html#performance-evaluation">
-   Performance evaluation
-  </a>
- </li>
-</ul>
-
 </nav>
 
  <!-- To handle the deprecated key -->
@@ -200,36 +175,6 @@
         <nav id="bd-toc-nav">
             <ul class="nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#load-data">
-   Load data
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#create-graphs-from-data">
-   Create graphs from data
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#performance-evaluation">
-   Performance evaluation
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#cross-validation">
-   Cross-validation
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#with-shuffled-labels">
-   With shuffled labels
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#with-true-labels">
-   With true labels
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#cross-validation-results">
    Cross-validation results
   </a>
@@ -294,8 +239,7 @@
 </div>
 </div>
 </div>
-<div class="section" id="load-data">
-<h2>Load data<a class="headerlink" href="#load-data" title="Permalink to this headline">¶</a></h2>
+<p><strong>Load data</strong></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load dataset </span>
@@ -322,9 +266,7 @@ loading run 4/4
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="create-graphs-from-data">
-<h2>Create graphs from data<a class="headerlink" href="#create-graphs-from-data" title="Permalink to this headline">¶</a></h2>
+<p><strong>Create graphs from data</strong></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create graphs from data</span>
@@ -338,12 +280,8 @@ loading run 4/4
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="performance-evaluation">
-<h2>Performance evaluation<a class="headerlink" href="#performance-evaluation" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="cross-validation">
-<h2>Cross-validation<a class="headerlink" href="#cross-validation" title="Permalink to this headline">¶</a></h2>
+<p><strong>Performance evaluation</strong>
+<strong>Cross-validation</strong></p>
 <div class="cell tag_function docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">model_train_test</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">train_G</span><span class="p">,</span> <span class="n">train_y</span><span class="p">,</span> <span class="n">test_G</span><span class="p">,</span> <span class="n">test_y</span><span class="p">):</span>
@@ -428,9 +366,7 @@ loading run 4/4
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="with-shuffled-labels">
-<h2>With shuffled labels<a class="headerlink" href="#with-shuffled-labels" title="Permalink to this headline">¶</a></h2>
+<p><strong>With shuffled labels</strong></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Total number of movies watched by each participant</span>
@@ -503,9 +439,7 @@ Mean test set accuracy: 12.961%
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="with-true-labels">
-<h2>With true labels<a class="headerlink" href="#with-true-labels" title="Permalink to this headline">¶</a></h2>
+<p>*<em>With true labels</em></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Total number of movies watched by each participant</span>
@@ -571,7 +505,6 @@ Train Accuracy: 100.000%, Test Accuracy: 96.199%
 Train Accuracy: 100.000%, Test Accuracy: 96.711%  
 Mean test set accuracy: 96.506%
 </pre></div>
-</div>
 </div>
 </div>
 </div>
@@ -747,8 +680,6 @@ if (outputEl) {{
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="NLNN_Clip_Classifier.html" title="previous page">Clip Classifier</a>
-    <a class='right-next' id="next-link" href="NLNN_Trajectory_simulation.html" title="next page">Trajectory Simulation</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">
