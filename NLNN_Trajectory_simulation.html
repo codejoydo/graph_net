@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Load data &#8212; ANN on fMRI</title>
+    <title>Trajectory Simulation &#8212; ANN on fMRI</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
     <link href="_static/css/index.css" rel="stylesheet">
     <link rel="stylesheet" href="_static/sphinx-book-theme.css" type="text/css" />
@@ -39,7 +39,7 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Load data" href="NLNN_CC_Randomization.html" />
+    <link rel="prev" title="Breaking Down Classifier" href="NLNN_CC_Randomization.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
@@ -80,42 +80,17 @@
 <ul class="current nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="NLNN_Clip_Classifier.html">
-   Data
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="NLNN_Clip_Classifier.html#model">
-   Model
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="NLNN_Clip_Classifier.html#performance-evaluation">
-   Performance evaluation
+   Clip Classifier
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="NLNN_CC_Randomization.html">
-   Load data
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="NLNN_CC_Randomization.html#create-graphs-from-data">
-   Create graphs from data
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="NLNN_CC_Randomization.html#performance-evaluation">
-   Performance evaluation
+   Breaking Down Classifier
   </a>
  </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   Load data
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="#create-graphs-from-data">
-   Create graphs from data
+   Trajectory Simulation
   </a>
  </li>
  <li class="toctree-l1">
@@ -222,7 +197,19 @@
             <i class="fas fa-list"></i> Contents
         </div>
         <nav id="bd-toc-nav">
-            
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#load-data">
+   Load data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#create-graphs-from-data">
+   Create graphs from data
+  </a>
+ </li>
+</ul>
+
         </nav>
     </div>
 </div>
@@ -231,7 +218,9 @@
         
               <div>
                 
-  <div class="cell tag_import docutils container">
+  <div class="section" id="trajectory-simulation">
+<h1>Trajectory Simulation<a class="headerlink" href="#trajectory-simulation" title="Permalink to this headline">¶</a></h1>
+<div class="cell tag_import docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span><span class="p">,</span> <span class="n">HTML</span>
 </pre></div>
@@ -357,7 +346,7 @@ var n,a=t("./lib/build-log"),i=t("./lib/epsilon"),o=t("./lib/intersecter"),s=t("
 </div></div>
 </div>
 <div class="section" id="load-data">
-<h1>Load data<a class="headerlink" href="#load-data" title="Permalink to this headline">¶</a></h1>
+<h2>Load data<a class="headerlink" href="#load-data" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load dataset </span>
@@ -392,7 +381,7 @@ var n,a=t("./lib/build-log"),i=t("./lib/epsilon"),o=t("./lib/intersecter"),s=t("
 </div>
 </div>
 <div class="section" id="create-graphs-from-data">
-<h1>Create graphs from data<a class="headerlink" href="#create-graphs-from-data" title="Permalink to this headline">¶</a></h1>
+<h2>Create graphs from data<a class="headerlink" href="#create-graphs-from-data" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create data </span>
@@ -415,6 +404,7 @@ var n,a=t("./lib/build-log"),i=t("./lib/epsilon"),o=t("./lib/intersecter"),s=t("
 <span class="n">graphs_dict_list</span> <span class="o">=</span> <span class="n">clip_graphs</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> 
                                <span class="n">prob_edge</span><span class="o">=</span><span class="n">prob_edge</span><span class="p">)</span>
 </pre></div>
+</div>
 </div>
 </div>
 </div>
@@ -733,9 +723,7 @@ Train_loss: 1.083, Train Accuracy: -0.219
 Train_loss: 1.011, Train Accuracy: -0.216
 Train_loss: 1.049, Train Accuracy: -0.215
 Train_loss: 1.006, Train Accuracy: -0.211
-</pre></div>
-</div>
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Train_loss: 1.086, Train Accuracy: -0.208
+Train_loss: 1.086, Train Accuracy: -0.208
 Train_loss: 1.028, Train Accuracy: -0.204
 Train_loss: 1.012, Train Accuracy: -0.201
 Train_loss: 1.020, Train Accuracy: -0.200
@@ -932,9 +920,7 @@ Train_loss: 0.618, Train Accuracy: 0.289
 Train_loss: 0.696, Train Accuracy: 0.290
 Train_loss: 0.649, Train Accuracy: 0.290
 Train_loss: 0.662, Train Accuracy: 0.290
-</pre></div>
-</div>
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Train_loss: 0.647, Train Accuracy: 0.291
+Train_loss: 0.647, Train Accuracy: 0.291
 Train_loss: 0.691, Train Accuracy: 0.292
 Train_loss: 0.648, Train Accuracy: 0.294
 Train_loss: 0.664, Train Accuracy: 0.294
@@ -1130,9 +1116,7 @@ Train_loss: 0.551, Train Accuracy: 0.424
 Train_loss: 0.516, Train Accuracy: 0.425
 Train_loss: 0.507, Train Accuracy: 0.426
 Train_loss: 0.566, Train Accuracy: 0.426
-</pre></div>
-</div>
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Train_loss: 0.535, Train Accuracy: 0.426
+Train_loss: 0.535, Train Accuracy: 0.426
 Train_loss: 0.545, Train Accuracy: 0.426
 Train_loss: 0.532, Train Accuracy: 0.427
 Train_loss: 0.568, Train Accuracy: 0.427
@@ -1328,9 +1312,7 @@ Train_loss: 0.483, Train Accuracy: 0.492
 Train_loss: 0.462, Train Accuracy: 0.493
 Train_loss: 0.486, Train Accuracy: 0.493
 Train_loss: 0.455, Train Accuracy: 0.494
-</pre></div>
-</div>
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Train_loss: 0.451, Train Accuracy: 0.495
+Train_loss: 0.451, Train Accuracy: 0.495
 Train_loss: 0.499, Train Accuracy: 0.495
 Train_loss: 0.473, Train Accuracy: 0.495
 Train_loss: 0.487, Train Accuracy: 0.495
@@ -1527,9 +1509,7 @@ Train_loss: 0.460, Train Accuracy: 0.530
 Train_loss: 0.451, Train Accuracy: 0.530
 Train_loss: 0.430, Train Accuracy: 0.531
 Train_loss: 0.450, Train Accuracy: 0.531
-</pre></div>
-</div>
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Train_loss: 0.422, Train Accuracy: 0.532
+Train_loss: 0.422, Train Accuracy: 0.532
 Train_loss: 0.421, Train Accuracy: 0.533
 Train_loss: 0.462, Train Accuracy: 0.533
 Train_loss: 0.438, Train Accuracy: 0.533
@@ -1725,9 +1705,7 @@ Train_loss: 0.421, Train Accuracy: 0.553
 Train_loss: 0.458, Train Accuracy: 0.553
 Train_loss: 0.438, Train Accuracy: 0.552
 Train_loss: 0.434, Train Accuracy: 0.553
-</pre></div>
-</div>
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Train_loss: 0.413, Train Accuracy: 0.553
+Train_loss: 0.413, Train Accuracy: 0.553
 Train_loss: 0.427, Train Accuracy: 0.553
 Train_loss: 0.402, Train Accuracy: 0.554
 Train_loss: 0.403, Train Accuracy: 0.555
@@ -1924,9 +1902,7 @@ Train_loss: 0.413, Train Accuracy: 0.566
 Train_loss: 0.407, Train Accuracy: 0.567
 Train_loss: 0.443, Train Accuracy: 0.567
 Train_loss: 0.426, Train Accuracy: 0.566
-</pre></div>
-</div>
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Train_loss: 0.422, Train Accuracy: 0.567
+Train_loss: 0.422, Train Accuracy: 0.567
 Train_loss: 0.400, Train Accuracy: 0.567
 Train_loss: 0.416, Train Accuracy: 0.567
 Train_loss: 0.393, Train Accuracy: 0.568
@@ -2123,9 +2099,7 @@ Train_loss: 0.388, Train Accuracy: 0.575
 Train_loss: 0.404, Train Accuracy: 0.576
 Train_loss: 0.399, Train Accuracy: 0.577
 Train_loss: 0.434, Train Accuracy: 0.576
-</pre></div>
-</div>
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Train_loss: 0.415, Train Accuracy: 0.576
+Train_loss: 0.415, Train Accuracy: 0.576
 Train_loss: 0.411, Train Accuracy: 0.576
 Train_loss: 0.392, Train Accuracy: 0.576
 Train_loss: 0.409, Train Accuracy: 0.577
@@ -2322,9 +2296,7 @@ Train_loss: 0.391, Train Accuracy: 0.582
 Train_loss: 0.385, Train Accuracy: 0.581
 Train_loss: 0.399, Train Accuracy: 0.582
 Train_loss: 0.392, Train Accuracy: 0.583
-</pre></div>
-</div>
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Train_loss: 0.430, Train Accuracy: 0.582
+Train_loss: 0.430, Train Accuracy: 0.582
 Train_loss: 0.410, Train Accuracy: 0.582
 Train_loss: 0.408, Train Accuracy: 0.582
 Train_loss: 0.388, Train Accuracy: 0.582
@@ -2519,7 +2491,7 @@ float64
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="NLNN_CC_Randomization.html" title="previous page">Load data</a>
+    <a class='left-prev' id="prev-link" href="NLNN_CC_Randomization.html" title="previous page">Breaking Down Classifier</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">

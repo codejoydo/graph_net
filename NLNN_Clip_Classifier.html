@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Data &#8212; ANN on fMRI</title>
+    <title>Clip Classifier &#8212; ANN on fMRI</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
     <link href="_static/css/index.css" rel="stylesheet">
     <link rel="stylesheet" href="_static/sphinx-book-theme.css" type="text/css" />
@@ -39,7 +39,7 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Load data" href="NLNN_CC_Randomization.html" />
+    <link rel="next" title="Breaking Down Classifier" href="NLNN_CC_Randomization.html" />
     <link rel="prev" title="graph_net" href="intro.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -81,42 +81,17 @@
 <ul class="current nav sidenav_l1">
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   Data
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="#model">
-   Model
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="#performance-evaluation">
-   Performance evaluation
+   Clip Classifier
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="NLNN_CC_Randomization.html">
-   Load data
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="NLNN_CC_Randomization.html#create-graphs-from-data">
-   Create graphs from data
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="NLNN_CC_Randomization.html#performance-evaluation">
-   Performance evaluation
+   Breaking Down Classifier
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="NLNN_Trajectory_simulation.html">
-   Load data
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="NLNN_Trajectory_simulation.html#create-graphs-from-data">
-   Create graphs from data
+   Trajectory Simulation
   </a>
  </li>
  <li class="toctree-l1">
@@ -223,7 +198,29 @@
             <i class="fas fa-list"></i> Contents
         </div>
         <nav id="bd-toc-nav">
-            
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#data">
+   Data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#model">
+   Model
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#performance-evaluation">
+   Performance evaluation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#testing-accuracy">
+   Testing accuracy
+  </a>
+ </li>
+</ul>
+
         </nav>
     </div>
 </div>
@@ -232,7 +229,9 @@
         
               <div>
                 
-  <div class="cell docutils container">
+  <div class="section" id="clip-classifier">
+<h1>Clip Classifier<a class="headerlink" href="#clip-classifier" title="Permalink to this headline">¶</a></h1>
+<div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span><span class="p">,</span> <span class="n">HTML</span>
 </pre></div>
@@ -268,7 +267,7 @@
 </div>
 </div>
 <div class="section" id="data">
-<h1>Data<a class="headerlink" href="#data" title="Permalink to this headline">¶</a></h1>
+<h2>Data<a class="headerlink" href="#data" title="Permalink to this headline">¶</a></h2>
 <p>The dataset consists of fMRI time-series activations</p>
 <ul class="simple">
 <li><p>300 ROIs: schafer 300 ROI parcellation,</p></li>
@@ -525,7 +524,7 @@ loading run 4/4
 </div>
 </div>
 <div class="section" id="model">
-<h1>Model<a class="headerlink" href="#model" title="Permalink to this headline">¶</a></h1>
+<h2>Model<a class="headerlink" href="#model" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">HTML</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;&lt;img src=&quot;NLNN.png&quot;&gt;&#39;&#39;&#39;</span><span class="p">))</span>
@@ -596,7 +595,7 @@ where <span class="math notranslate nohighlight">\(\textbf{E}_{i}^{\prime}\)</sp
 </div>
 </div>
 <div class="section" id="performance-evaluation">
-<h1>Performance evaluation<a class="headerlink" href="#performance-evaluation" title="Permalink to this headline">¶</a></h1>
+<h2>Performance evaluation<a class="headerlink" href="#performance-evaluation" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">train_loss_results</span> <span class="o">=</span> <span class="p">[]</span>
@@ -706,8 +705,9 @@ Epoch 009: Train Loss: 3.515, Train Accuracy: 99.407%, Validation Loss: 14.463, 
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/NLNN_Clip_Classifier_12_0.png" src="_images/NLNN_Clip_Classifier_12_0.png" />
-<img alt="_images/NLNN_Clip_Classifier_12_1.png" src="_images/NLNN_Clip_Classifier_12_1.png" />
+<img alt="_images/NLNN_Clip_Classifier_13_0.png" src="_images/NLNN_Clip_Classifier_13_0.png" />
+<img alt="_images/NLNN_Clip_Classifier_13_1.png" src="_images/NLNN_Clip_Classifier_13_1.png" />
+</div>
 </div>
 </div>
 <div class="section" id="testing-accuracy">
@@ -765,7 +765,7 @@ Epoch 009: Train Loss: 3.515, Train Accuracy: 99.407%, Validation Loss: 14.463, 
     <div class='prev-next-bottom'>
         
     <a class='left-prev' id="prev-link" href="intro.html" title="previous page">graph_net</a>
-    <a class='right-next' id="next-link" href="NLNN_CC_Randomization.html" title="next page">Load data</a>
+    <a class='right-next' id="next-link" href="NLNN_CC_Randomization.html" title="next page">Breaking Down Classifier</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">
