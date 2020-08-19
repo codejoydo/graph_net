@@ -4,4 +4,4 @@
   sections:
   - file: NLNN_Clip_Classifier
   - file: NLNN_CC_Randomization
-  - file: NLNN_Trajectory_simulation
+  - file: NLNN_timeseries_simulation
