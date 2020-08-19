@@ -1,6 +1,0 @@
-file: intro
-chapters:
-- file: NLNN_intro
-- file: NLNN_Clip_Classifier
-- file: NLNN_CC_Randomization
-- file: NLNN_Trajectory_simulation
