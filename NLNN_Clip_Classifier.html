@@ -99,11 +99,6 @@
    Trajectory Simulation
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="NLNN_Trajectory_simulation.html#performance-evaluation">
-   Performance evaluation
-  </a>
- </li>
 </ul>
 
 </nav>
@@ -206,11 +201,18 @@
   <a class="reference internal nav-link" href="#performance-evaluation">
    Performance evaluation
   </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#testing-accuracy">
-   Testing accuracy
-  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#training-validation-accuracy">
+     Training/validation accuracy
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#testing-accuracy">
+     Testing accuracy
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -224,14 +226,14 @@
                 
   <div class="section" id="clip-classifier">
 <h1>Clip Classifier<a class="headerlink" href="#clip-classifier" title="Permalink to this headline">¶</a></h1>
-<div class="cell docutils container">
+<div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span><span class="p">,</span> <span class="n">HTML</span>
 </pre></div>
 </div>
 </div>
 </div>
-<div class="cell docutils container">
+<div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">absolute_import</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">division</span>
@@ -267,7 +269,7 @@
 <li><p>176 participants,</p></li>
 <li><p>each participant watches 15 movie clips.</p></li>
 </ul>
-<div class="cell docutils container">
+<div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">videoclip_table</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data/videoclip_tr_lookup.csv&quot;</span><span class="p">)</span>
 <span class="n">videoclip_table</span>
@@ -475,7 +477,7 @@
 <li><p>all nodes are connected pair wise</p></li>
 <li><p>there is <strong>no</strong> edge attribute</p></li>
 </ul>
-<div class="cell docutils container">
+<div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load dataset </span>
 <span class="n">X</span><span class="p">,</span> <span class="n">X_len</span><span class="p">,</span> <span class="n">clip_y</span><span class="p">,</span> <span class="n">num_subjs</span><span class="p">,</span> <span class="n">num_clips</span> <span class="o">=</span> <span class="n">get_data</span><span class="p">()</span>
@@ -520,15 +522,6 @@ loading run 4/4
 <h2>Model<a class="headerlink" href="#model" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">HTML</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;&lt;img src=&quot;NLNN.png&quot;&gt;&#39;&#39;&#39;</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html"><img src="NLNN.png"></div></div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create model</span>
 <span class="n">model</span> <span class="o">=</span> <span class="n">NLNNClassifer</span><span class="p">(</span><span class="n">num_nodes</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> 
                       <span class="n">k_linear</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> 
@@ -556,7 +549,9 @@ loading run 4/4
 </div>
 <div class="section" id="performance-evaluation">
 <h2>Performance evaluation<a class="headerlink" href="#performance-evaluation" title="Permalink to this headline">¶</a></h2>
-<div class="cell docutils container">
+<div class="section" id="training-validation-accuracy">
+<h3>Training/validation accuracy<a class="headerlink" href="#training-validation-accuracy" title="Permalink to this headline">¶</a></h3>
+<div class="cell tag_hide-output docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">train_loss_results</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">train_accuracy_results</span> <span class="o">=</span> <span class="p">[]</span>
@@ -636,7 +631,7 @@ Epoch 009: Train Loss: 3.515, Train Accuracy: 99.407%, Validation Loss: 14.463, 
 </div>
 </div>
 </div>
-<div class="cell docutils container">
+<div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Training metrics</span>
 <span class="n">fig_tr</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
@@ -665,14 +660,14 @@ Epoch 009: Train Loss: 3.515, Train Accuracy: 99.407%, Validation Loss: 14.463, 
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/NLNN_Clip_Classifier_13_0.png" src="_images/NLNN_Clip_Classifier_13_0.png" />
-<img alt="_images/NLNN_Clip_Classifier_13_1.png" src="_images/NLNN_Clip_Classifier_13_1.png" />
+<img alt="_images/NLNN_Clip_Classifier_11_0.png" src="_images/NLNN_Clip_Classifier_11_0.png" />
+<img alt="_images/NLNN_Clip_Classifier_11_1.png" src="_images/NLNN_Clip_Classifier_11_1.png" />
 </div>
 </div>
 </div>
 <div class="section" id="testing-accuracy">
-<h2>Testing accuracy<a class="headerlink" href="#testing-accuracy" title="Permalink to this headline">¶</a></h2>
-<div class="cell docutils container">
+<h3>Testing accuracy<a class="headerlink" href="#testing-accuracy" title="Permalink to this headline">¶</a></h3>
+<div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">test_accuracy</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">CategoricalAccuracy</span><span class="p">()</span>
 
@@ -690,6 +685,7 @@ Epoch 009: Train Loss: 3.515, Train Accuracy: 99.407%, Validation Loss: 14.463, 
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Test set accuracy: 92.895%
 </pre></div>
+</div>
 </div>
 </div>
 </div>

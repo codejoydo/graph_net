@@ -99,11 +99,6 @@
    Trajectory Simulation
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="NLNN_Trajectory_simulation.html#performance-evaluation">
-   Performance evaluation
-  </a>
- </li>
 </ul>
 
 </nav>
@@ -206,26 +201,28 @@
   <a class="reference internal nav-link" href="#performance-evaluation">
    Performance evaluation
   </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#cross-validation">
-   Cross-validation
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#with-shuffled-labels">
-   With shuffled labels
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#with-true-labels">
-   With true labels
-  </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#cross-validation-results">
-     Cross-validation results
+    <a class="reference internal nav-link" href="#cross-validation">
+     Cross-validation
     </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#with-shuffled-labels">
+       With shuffled labels
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#with-true-labels">
+       With true labels
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#cross-validation-results">
+       Cross-validation results
+      </a>
+     </li>
+    </ul>
    </li>
   </ul>
  </li>
@@ -241,14 +238,14 @@
                 
   <div class="section" id="breaking-down-classifier">
 <h1>Breaking Down Classifier<a class="headerlink" href="#breaking-down-classifier" title="Permalink to this headline">¶</a></h1>
-<div class="cell tag_import docutils container">
+<div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span><span class="p">,</span> <span class="n">HTML</span>
 </pre></div>
 </div>
 </div>
 </div>
-<div class="cell tag_import docutils container">
+<div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">absolute_import</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">division</span>
@@ -365,7 +362,7 @@ var n,a=t("./lib/build-log"),i=t("./lib/epsilon"),o=t("./lib/intersecter"),s=t("
         </script>
 </div></div>
 </div>
-<div class="cell docutils container">
+<div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">list_physical_devices</span><span class="p">(</span><span class="s1">&#39;GPU&#39;</span><span class="p">))</span>
 </pre></div>
@@ -379,7 +376,7 @@ var n,a=t("./lib/build-log"),i=t("./lib/epsilon"),o=t("./lib/intersecter"),s=t("
 </div>
 <div class="section" id="load-data">
 <h2>Load data<a class="headerlink" href="#load-data" title="Permalink to this headline">¶</a></h2>
-<div class="cell docutils container">
+<div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load dataset </span>
 <span class="n">X</span><span class="p">,</span> <span class="n">X_len</span><span class="p">,</span> <span class="n">clip_y</span><span class="p">,</span> <span class="n">num_subjs</span><span class="p">,</span> <span class="n">num_clips</span> <span class="o">=</span> <span class="n">get_data</span><span class="p">()</span>
@@ -408,7 +405,7 @@ loading run 4/4
 </div>
 <div class="section" id="create-graphs-from-data">
 <h2>Create graphs from data<a class="headerlink" href="#create-graphs-from-data" title="Permalink to this headline">¶</a></h2>
-<div class="cell docutils container">
+<div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create graphs from data</span>
 <span class="n">prob_edge</span> <span class="o">=</span> <span class="mf">0.0</span>
@@ -424,10 +421,9 @@ loading run 4/4
 </div>
 <div class="section" id="performance-evaluation">
 <h2>Performance evaluation<a class="headerlink" href="#performance-evaluation" title="Permalink to this headline">¶</a></h2>
-</div>
 <div class="section" id="cross-validation">
-<h2>Cross-validation<a class="headerlink" href="#cross-validation" title="Permalink to this headline">¶</a></h2>
-<div class="cell tag_function docutils container">
+<h3>Cross-validation<a class="headerlink" href="#cross-validation" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">model_train_test</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">train_G</span><span class="p">,</span> <span class="n">train_y</span><span class="p">,</span> <span class="n">test_G</span><span class="p">,</span> <span class="n">test_y</span><span class="p">):</span>
     
@@ -511,10 +507,10 @@ loading run 4/4
 </div>
 </div>
 </div>
-</div>
 <div class="section" id="with-shuffled-labels">
-<h2>With shuffled labels<a class="headerlink" href="#with-shuffled-labels" title="Permalink to this headline">¶</a></h2>
-<div class="cell docutils container">
+<h4>With shuffled labels<a class="headerlink" href="#with-shuffled-labels" title="Permalink to this headline">¶</a></h4>
+<p>We shuffle the labels of the 100 training subjects’ data and check model performance on 76 test participants’ data</p>
+<div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Total number of movies watched by each participant</span>
 <span class="c1"># Because there are four runs of test-retest (clip #0)</span>
@@ -588,8 +584,8 @@ Mean test set accuracy: 13.282%
 </div>
 </div>
 <div class="section" id="with-true-labels">
-<h2>With true labels<a class="headerlink" href="#with-true-labels" title="Permalink to this headline">¶</a></h2>
-<div class="cell docutils container">
+<h4>With true labels<a class="headerlink" href="#with-true-labels" title="Permalink to this headline">¶</a></h4>
+<div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Total number of movies watched by each participant</span>
 <span class="c1"># Because there are four runs of test-retest (clip #0)</span>
@@ -657,9 +653,10 @@ Mean test set accuracy: 96.667%
 </div>
 </div>
 </div>
+</div>
 <div class="section" id="cross-validation-results">
-<h3>Cross-validation results<a class="headerlink" href="#cross-validation-results" title="Permalink to this headline">¶</a></h3>
-<div class="cell tag_plot docutils container">
+<h4>Cross-validation results<a class="headerlink" href="#cross-validation-results" title="Permalink to this headline">¶</a></h4>
+<div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Group data together</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="s2">&quot;group&quot;</span><span class="p">])</span>
@@ -724,6 +721,7 @@ if (outputEl) {{
                 });
             </script>
         </div></div></div>
+</div>
 </div>
 </div>
 </div>

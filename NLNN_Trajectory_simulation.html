@@ -98,11 +98,6 @@
    Trajectory Simulation
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="#performance-evaluation">
-   Performance evaluation
-  </a>
- </li>
 </ul>
 
 </nav>
@@ -195,11 +190,25 @@
   <a class="reference internal nav-link" href="#load-data">
    Load data
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#create-graphs-from-data">
+     Create graphs from data
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#create-graphs-from-data">
-   Create graphs from data
+  <a class="reference internal nav-link" href="#performance-evaluation">
+   Performance evaluation
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#training">
+     Training
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -213,14 +222,14 @@
                 
   <div class="section" id="trajectory-simulation">
 <h1>Trajectory Simulation<a class="headerlink" href="#trajectory-simulation" title="Permalink to this headline">¶</a></h1>
-<div class="cell tag_import docutils container">
+<div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span><span class="p">,</span> <span class="n">HTML</span>
 </pre></div>
 </div>
 </div>
 </div>
-<div class="cell tag_import docutils container">
+<div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">absolute_import</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">division</span>
@@ -340,7 +349,7 @@ var n,a=t("./lib/build-log"),i=t("./lib/epsilon"),o=t("./lib/intersecter"),s=t("
 </div>
 <div class="section" id="load-data">
 <h2>Load data<a class="headerlink" href="#load-data" title="Permalink to this headline">¶</a></h2>
-<div class="cell docutils container">
+<div class="cell tag_hide-cell tag_hide-output docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load dataset </span>
 <span class="n">X</span><span class="p">,</span> <span class="n">X_len</span><span class="p">,</span> <span class="n">clip_y</span><span class="p">,</span> <span class="n">num_subjs</span><span class="p">,</span> <span class="n">num_clips</span> <span class="o">=</span> <span class="n">get_data</span><span class="p">()</span>
@@ -362,7 +371,7 @@ var n,a=t("./lib/build-log"),i=t("./lib/epsilon"),o=t("./lib/intersecter"),s=t("
 </div>
 </div>
 </div>
-<div class="cell docutils container">
+<div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Fix a clip for simulating its trajectory</span>
 <span class="n">clip_num</span> <span class="o">=</span> <span class="mi">4</span>
@@ -372,10 +381,9 @@ var n,a=t("./lib/build-log"),i=t("./lib/epsilon"),o=t("./lib/intersecter"),s=t("
 </div>
 </div>
 </div>
-</div>
 <div class="section" id="create-graphs-from-data">
-<h2>Create graphs from data<a class="headerlink" href="#create-graphs-from-data" title="Permalink to this headline">¶</a></h2>
-<div class="cell docutils container">
+<h3>Create graphs from data<a class="headerlink" href="#create-graphs-from-data" title="Permalink to this headline">¶</a></h3>
+<div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create data </span>
 <span class="n">X</span> <span class="o">=</span> <span class="p">[]</span>
@@ -403,7 +411,7 @@ var n,a=t("./lib/build-log"),i=t("./lib/epsilon"),o=t("./lib/intersecter"),s=t("
 </div>
 </div>
 <div class="section" id="performance-evaluation">
-<h1>Performance evaluation<a class="headerlink" href="#performance-evaluation" title="Permalink to this headline">¶</a></h1>
+<h2>Performance evaluation<a class="headerlink" href="#performance-evaluation" title="Permalink to this headline">¶</a></h2>
 <div class="cell tag_function docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">model_train_test</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">train_G</span><span class="p">,</span> <span class="n">train_y</span><span class="p">,</span> <span class="n">test_G</span><span class="p">,</span> <span class="n">test_y</span><span class="p">):</span>
@@ -490,8 +498,8 @@ var n,a=t("./lib/build-log"),i=t("./lib/epsilon"),o=t("./lib/intersecter"),s=t("
 </div>
 </div>
 <div class="section" id="training">
-<h2>Training<a class="headerlink" href="#training" title="Permalink to this headline">¶</a></h2>
-<div class="cell docutils container">
+<h3>Training<a class="headerlink" href="#training" title="Permalink to this headline">¶</a></h3>
+<div class="cell tag_hide-cell tag_hide-output docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Train, test split</span>
 <span class="n">num_X</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
@@ -2431,25 +2439,6 @@ Train_loss: 0.376, Train Accuracy: 0.587
 Train_loss: 0.406, Train Accuracy: 0.587
 </pre></div>
 </div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">train_G</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">train_G</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;nodes&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">train_G</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;edges&#39;</span><span class="p">]))</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">train_G</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;senders&#39;</span><span class="p">]))</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">train_G</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;receivers&#39;</span><span class="p">]))</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>dict_keys([&#39;nodes&#39;, &#39;edges&#39;, &#39;senders&#39;, &#39;receivers&#39;])
-float64
-4458
-4458
-4458
-</pre></div>
 </div>
 </div>
 </div>
