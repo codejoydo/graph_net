@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Timeseries Simulation &#8212; Graph Networks on fMRI</title>
+    <title>Predicting next time point shuffled across participants &#8212; Graph Networks on fMRI</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
     <link href="_static/css/index.css" rel="stylesheet">
     <link rel="stylesheet" href="_static/sphinx-book-theme.css" type="text/css" />
@@ -39,8 +39,7 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Linear Regression for timeseries simulation" href="Linear_Regression_timeseries_simulation.html" />
-    <link rel="prev" title="Breaking Down Classifier" href="NLNN_CC_Randomization.html" />
+    <link rel="prev" title="Linear Regression for timeseries simulation" href="Linear_Regression_timeseries_simulation.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
@@ -94,8 +93,8 @@
    Breaking Down Classifier
   </a>
  </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
+ <li class="toctree-l1">
+  <a class="reference internal" href="NLNN_timeseries_simulation.html">
    Timeseries Simulation
   </a>
  </li>
@@ -104,8 +103,8 @@
    Linear Regression for timeseries simulation
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="NLNN_timeseries_simulation_randomdata.html">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    Predicting next time point shuffled across participants
   </a>
  </li>
@@ -151,7 +150,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/NLNN_timeseries_simulation.ipynb"><button type="button"
+        <a class="dropdown-buttons" href="_sources/NLNN_timeseries_simulation_randomdata.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
@@ -171,10 +170,10 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         <a class="issues-button"
-            href="https://github.com/codejoydo/graph_net/issues/new?title=Issue%20on%20page%20%2FNLNN_timeseries_simulation.html&body=Your%20issue%20content%20here."><button
+            href="https://github.com/codejoydo/graph_net/issues/new?title=Issue%20on%20page%20%2FNLNN_timeseries_simulation_randomdata.html&body=Your%20issue%20content%20here."><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
-        <a class="edit-button" href="https://github.com/codejoydo/graph_net/edit/master/NLNN_timeseries_simulation.ipynb"><button
+        <a class="edit-button" href="https://github.com/codejoydo/graph_net/edit/master/NLNN_timeseries_simulation_randomdata.ipynb"><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
     </div>
@@ -229,8 +228,8 @@
         
               <div>
                 
-  <div class="section" id="timeseries-simulation">
-<h1>Timeseries Simulation<a class="headerlink" href="#timeseries-simulation" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="predicting-next-time-point-shuffled-across-participants">
+<h1>Predicting next time point shuffled across participants<a class="headerlink" href="#predicting-next-time-point-shuffled-across-participants" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="load-data">
 <h2>Load data<a class="headerlink" href="#load-data" title="Permalink to this headline">¶</a></h2>
 <div class="cell tag_hide-cell docutils container">
@@ -264,6 +263,7 @@
 <div class="section" id="create-graphs-from-data">
 <h2>Create graphs from data<a class="headerlink" href="#create-graphs-from-data" title="Permalink to this headline">¶</a></h2>
 <p>Here we use a history of length k = 5.</p>
+<p>As a control analysis, we set the time-series of each participant as a random <span class="math notranslate nohighlight">\(#time \times #ROI\)</span> matrix.</p>
 <div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create data </span>
@@ -271,11 +271,17 @@
 <span class="n">y</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="c1"># Length of memory/history of data-sequence </span>
 <span class="n">k</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">shuffled_subjs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">num_subjs</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">idx_subj</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_subjs</span><span class="p">):</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">X_clip</span><span class="p">[</span><span class="n">idx_subj</span><span class="p">]</span>
+    <span class="n">x_shuffled</span> <span class="o">=</span> <span class="n">X_clip</span><span class="p">[</span><span class="n">shuffled_subjs</span><span class="p">[</span><span class="n">idx_subj</span><span class="p">]]</span>
     <span class="k">for</span> <span class="n">idx_tp</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
-        <span class="n">x_tp</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">idx_tp</span> <span class="o">-</span> <span class="n">k</span> <span class="p">:</span> <span class="n">idx_tp</span><span class="p">,</span> <span class="p">:]</span>
-        <span class="n">y_tp</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">idx_tp</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">8448</span><span class="p">:</span>
+            <span class="n">x_tp</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">idx_tp</span> <span class="o">-</span> <span class="n">k</span> <span class="p">:</span> <span class="n">idx_tp</span><span class="p">,</span> <span class="p">:]</span>
+            <span class="n">y_tp</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">idx_tp</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">x_tp</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">idx_tp</span> <span class="o">-</span> <span class="n">k</span> <span class="p">:</span> <span class="n">idx_tp</span><span class="p">,</span> <span class="p">:]</span>
+            <span class="n">y_tp</span> <span class="o">=</span> <span class="n">x_shuffled</span><span class="p">[</span><span class="n">idx_tp</span><span class="p">,</span> <span class="p">:]</span>    
         <span class="n">X</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x_tp</span><span class="p">)</span>
         <span class="n">y</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y_tp</span><span class="p">)</span>
 
@@ -329,7 +335,7 @@
     <span class="n">NLNN_simulator</span> <span class="o">=</span> <span class="n">base_model</span><span class="p">(</span><span class="n">task_type</span><span class="o">=</span><span class="s2">&quot;regression&quot;</span><span class="p">,</span>
                                 <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
                                 <span class="n">loss_object</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">MeanSquaredError</span><span class="p">(),</span>
-                                <span class="n">optimizer</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">optimizers</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">),</span>
+                                <span class="n">optimizer</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">optimizers</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.01</span><span class="p">),</span>
                                 <span class="n">eval_metric</span><span class="o">=</span><span class="n">tfa</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">RSquare</span><span class="p">(),</span>
                                 <span class="n">eval_metric_name</span><span class="o">=</span><span class="s2">&quot;% var explained&quot;</span><span class="p">,</span>
                                 <span class="n">batch_size</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
@@ -339,211 +345,111 @@
                                  <span class="n">train_Y</span><span class="o">=</span><span class="n">train_y</span><span class="p">,</span>
                                  <span class="n">val_X</span><span class="o">=</span><span class="n">test_G</span><span class="p">,</span>
                                  <span class="n">val_Y</span><span class="o">=</span><span class="n">test_y</span><span class="p">,</span>
-                                 <span class="n">num_epochs</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+                                 <span class="n">num_epochs</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 000: Train Loss: 50.031, Train % var explained: -4868.926%  Val Loss: 14.078, Val % var explained: -1367.813%  
-Epoch 001: Train Loss: 9.470, Train % var explained: -862.824%  Val Loss: 6.295, Val % var explained: -555.771%  
-Epoch 002: Train Loss: 5.363, Train % var explained: -448.912%  Val Loss: 4.204, Val % var explained: -338.431%  
-Epoch 003: Train Loss: 3.782, Train % var explained: -287.745%  Val Loss: 3.127, Val % var explained: -226.431%  
-Epoch 004: Train Loss: 2.892, Train % var explained: -196.805%  Val Loss: 2.471, Val % var explained: -158.015%  
-Epoch 005: Train Loss: 2.328, Train % var explained: -139.067%  Val Loss: 2.037, Val % var explained: -112.695%  
-Epoch 006: Train Loss: 1.946, Train % var explained: -99.879%  Val Loss: 1.733, Val % var explained: -81.003%  
-Epoch 007: Train Loss: 1.674, Train % var explained: -71.997%  Val Loss: 1.513, Val % var explained: -57.935%  
-Epoch 008: Train Loss: 1.473, Train % var explained: -51.430%  Val Loss: 1.347, Val % var explained: -40.594%  
-Epoch 009: Train Loss: 1.320, Train % var explained: -35.789%  Val Loss: 1.218, Val % var explained: -27.181%  
-Epoch 010: Train Loss: 1.201, Train % var explained: -23.561%  Val Loss: 1.116, Val % var explained: -16.530%  
-Epoch 011: Train Loss: 1.106, Train % var explained: -13.757%  Val Loss: 1.033, Val % var explained: -7.867%  
-Epoch 012: Train Loss: 1.028, Train % var explained: -5.716%  Val Loss: 0.964, Val % var explained: -0.676%  
-Epoch 013: Train Loss: 0.962, Train % var explained: 1.006%  Val Loss: 0.906, Val % var explained: 5.398%  
-Epoch 014: Train Loss: 0.907, Train % var explained: 6.715%  Val Loss: 0.856, Val % var explained: 10.599%  
-Epoch 015: Train Loss: 0.859, Train % var explained: 11.626%  Val Loss: 0.813, Val % var explained: 15.102%  
-Epoch 016: Train Loss: 0.817, Train % var explained: 15.894%  Val Loss: 0.775, Val % var explained: 19.036%  
-Epoch 017: Train Loss: 0.781, Train % var explained: 19.635%  Val Loss: 0.742, Val % var explained: 22.499%  
-Epoch 018: Train Loss: 0.749, Train % var explained: 22.939%  Val Loss: 0.712, Val % var explained: 25.567%  
-Epoch 019: Train Loss: 0.720, Train % var explained: 25.876%  Val Loss: 0.686, Val % var explained: 28.302%  
-Epoch 020: Train Loss: 0.695, Train % var explained: 28.501%  Val Loss: 0.662, Val % var explained: 30.754%  
-Epoch 021: Train Loss: 0.672, Train % var explained: 30.861%  Val Loss: 0.641, Val % var explained: 32.962%  
-Epoch 022: Train Loss: 0.651, Train % var explained: 32.993%  Val Loss: 0.622, Val % var explained: 34.961%  
-Epoch 023: Train Loss: 0.632, Train % var explained: 34.928%  Val Loss: 0.605, Val % var explained: 36.779%  
-Epoch 024: Train Loss: 0.615, Train % var explained: 36.691%  Val Loss: 0.589, Val % var explained: 38.439%  
-Epoch 025: Train Loss: 0.599, Train % var explained: 38.305%  Val Loss: 0.574, Val % var explained: 39.961%  
-Epoch 026: Train Loss: 0.585, Train % var explained: 39.786%  Val Loss: 0.561, Val % var explained: 41.361%  
-Epoch 027: Train Loss: 0.572, Train % var explained: 41.150%  Val Loss: 0.548, Val % var explained: 42.652%  
-Epoch 028: Train Loss: 0.560, Train % var explained: 42.411%  Val Loss: 0.537, Val % var explained: 43.847%  
-Epoch 029: Train Loss: 0.548, Train % var explained: 43.578%  Val Loss: 0.526, Val % var explained: 44.954%  
-Epoch 030: Train Loss: 0.538, Train % var explained: 44.660%  Val Loss: 0.516, Val % var explained: 45.981%  
-Epoch 031: Train Loss: 0.528, Train % var explained: 45.666%  Val Loss: 0.507, Val % var explained: 46.936%  
-Epoch 032: Train Loss: 0.519, Train % var explained: 46.603%  Val Loss: 0.499, Val % var explained: 47.825%  
-Epoch 033: Train Loss: 0.510, Train % var explained: 47.476%  Val Loss: 0.491, Val % var explained: 48.653%  
-Epoch 034: Train Loss: 0.502, Train % var explained: 48.291%  Val Loss: 0.483, Val % var explained: 49.425%  
-Epoch 035: Train Loss: 0.495, Train % var explained: 49.052%  Val Loss: 0.476, Val % var explained: 50.144%  
-Epoch 036: Train Loss: 0.488, Train % var explained: 49.764%  Val Loss: 0.470, Val % var explained: 50.814%  
-Epoch 037: Train Loss: 0.482, Train % var explained: 50.429%  Val Loss: 0.464, Val % var explained: 51.437%  
-Epoch 038: Train Loss: 0.476, Train % var explained: 51.051%  Val Loss: 0.458, Val % var explained: 52.016%  
-Epoch 039: Train Loss: 0.470, Train % var explained: 51.632%  Val Loss: 0.453, Val % var explained: 52.554%  
-Epoch 040: Train Loss: 0.465, Train % var explained: 52.176%  Val Loss: 0.448, Val % var explained: 53.054%  
-Epoch 041: Train Loss: 0.460, Train % var explained: 52.684%  Val Loss: 0.444, Val % var explained: 53.519%  
-Epoch 042: Train Loss: 0.455, Train % var explained: 53.159%  Val Loss: 0.440, Val % var explained: 53.950%  
-Epoch 043: Train Loss: 0.451, Train % var explained: 53.602%  Val Loss: 0.436, Val % var explained: 54.352%  
-Epoch 044: Train Loss: 0.447, Train % var explained: 54.015%  Val Loss: 0.432, Val % var explained: 54.725%  
-Epoch 045: Train Loss: 0.443, Train % var explained: 54.400%  Val Loss: 0.429, Val % var explained: 55.072%  
-Epoch 046: Train Loss: 0.440, Train % var explained: 54.758%  Val Loss: 0.426, Val % var explained: 55.392%  
-Epoch 047: Train Loss: 0.437, Train % var explained: 55.091%  Val Loss: 0.423, Val % var explained: 55.689%  
-Epoch 048: Train Loss: 0.434, Train % var explained: 55.400%  Val Loss: 0.420, Val % var explained: 55.963%  
-Epoch 049: Train Loss: 0.431, Train % var explained: 55.687%  Val Loss: 0.418, Val % var explained: 56.215%  
-Epoch 050: Train Loss: 0.428, Train % var explained: 55.953%  Val Loss: 0.416, Val % var explained: 56.448%  
-Epoch 051: Train Loss: 0.426, Train % var explained: 56.199%  Val Loss: 0.414, Val % var explained: 56.664%  
-Epoch 052: Train Loss: 0.424, Train % var explained: 56.428%  Val Loss: 0.412, Val % var explained: 56.865%  
-Epoch 053: Train Loss: 0.422, Train % var explained: 56.639%  Val Loss: 0.410, Val % var explained: 57.053%  
-Epoch 054: Train Loss: 0.420, Train % var explained: 56.836%  Val Loss: 0.408, Val % var explained: 57.230%  
-Epoch 055: Train Loss: 0.418, Train % var explained: 57.017%  Val Loss: 0.407, Val % var explained: 57.397%  
-Epoch 056: Train Loss: 0.416, Train % var explained: 57.186%  Val Loss: 0.405, Val % var explained: 57.555%  
-Epoch 057: Train Loss: 0.415, Train % var explained: 57.342%  Val Loss: 0.404, Val % var explained: 57.704%  
-Epoch 058: Train Loss: 0.413, Train % var explained: 57.487%  Val Loss: 0.402, Val % var explained: 57.843%  
-Epoch 059: Train Loss: 0.412, Train % var explained: 57.621%  Val Loss: 0.401, Val % var explained: 57.971%  
-Epoch 060: Train Loss: 0.411, Train % var explained: 57.745%  Val Loss: 0.400, Val % var explained: 58.089%  
-Epoch 061: Train Loss: 0.410, Train % var explained: 57.859%  Val Loss: 0.399, Val % var explained: 58.197%  
-Epoch 062: Train Loss: 0.409, Train % var explained: 57.966%  Val Loss: 0.398, Val % var explained: 58.294%  
-Epoch 063: Train Loss: 0.408, Train % var explained: 58.064%  Val Loss: 0.397, Val % var explained: 58.381%  
-Epoch 064: Train Loss: 0.407, Train % var explained: 58.155%  Val Loss: 0.396, Val % var explained: 58.458%  
-Epoch 065: Train Loss: 0.406, Train % var explained: 58.240%  Val Loss: 0.396, Val % var explained: 58.526%  
-Epoch 066: Train Loss: 0.405, Train % var explained: 58.319%  Val Loss: 0.395, Val % var explained: 58.586%  
-Epoch 067: Train Loss: 0.405, Train % var explained: 58.392%  Val Loss: 0.395, Val % var explained: 58.637%  
-Epoch 068: Train Loss: 0.404, Train % var explained: 58.460%  Val Loss: 0.394, Val % var explained: 58.682%  
-Epoch 069: Train Loss: 0.404, Train % var explained: 58.524%  Val Loss: 0.394, Val % var explained: 58.721%  
-Epoch 070: Train Loss: 0.403, Train % var explained: 58.584%  Val Loss: 0.394, Val % var explained: 58.755%  
-Epoch 071: Train Loss: 0.402, Train % var explained: 58.640%  Val Loss: 0.393, Val % var explained: 58.784%  
-Epoch 072: Train Loss: 0.402, Train % var explained: 58.693%  Val Loss: 0.393, Val % var explained: 58.811%  
-Epoch 073: Train Loss: 0.402, Train % var explained: 58.743%  Val Loss: 0.393, Val % var explained: 58.836%  
-Epoch 074: Train Loss: 0.401, Train % var explained: 58.791%  Val Loss: 0.393, Val % var explained: 58.859%  
-Epoch 075: Train Loss: 0.401, Train % var explained: 58.836%  Val Loss: 0.392, Val % var explained: 58.881%  
-Epoch 076: Train Loss: 0.400, Train % var explained: 58.880%  Val Loss: 0.392, Val % var explained: 58.903%  
-Epoch 077: Train Loss: 0.400, Train % var explained: 58.922%  Val Loss: 0.392, Val % var explained: 58.924%  
-Epoch 078: Train Loss: 0.399, Train % var explained: 58.962%  Val Loss: 0.392, Val % var explained: 58.946%  
-Epoch 079: Train Loss: 0.399, Train % var explained: 59.001%  Val Loss: 0.392, Val % var explained: 58.969%  
-Epoch 080: Train Loss: 0.399, Train % var explained: 59.038%  Val Loss: 0.391, Val % var explained: 58.993%  
-Epoch 081: Train Loss: 0.398, Train % var explained: 59.074%  Val Loss: 0.391, Val % var explained: 59.017%  
-Epoch 082: Train Loss: 0.398, Train % var explained: 59.108%  Val Loss: 0.391, Val % var explained: 59.042%  
-Epoch 083: Train Loss: 0.398, Train % var explained: 59.142%  Val Loss: 0.391, Val % var explained: 59.068%  
-Epoch 084: Train Loss: 0.397, Train % var explained: 59.174%  Val Loss: 0.390, Val % var explained: 59.094%  
-Epoch 085: Train Loss: 0.397, Train % var explained: 59.206%  Val Loss: 0.390, Val % var explained: 59.122%  
-Epoch 086: Train Loss: 0.397, Train % var explained: 59.236%  Val Loss: 0.390, Val % var explained: 59.150%  
-Epoch 087: Train Loss: 0.397, Train % var explained: 59.266%  Val Loss: 0.390, Val % var explained: 59.179%  
-Epoch 088: Train Loss: 0.396, Train % var explained: 59.294%  Val Loss: 0.389, Val % var explained: 59.209%  
-Epoch 089: Train Loss: 0.396, Train % var explained: 59.322%  Val Loss: 0.389, Val % var explained: 59.240%  
-Epoch 090: Train Loss: 0.396, Train % var explained: 59.349%  Val Loss: 0.389, Val % var explained: 59.271%  
-Epoch 091: Train Loss: 0.396, Train % var explained: 59.375%  Val Loss: 0.388, Val % var explained: 59.302%  
-Epoch 092: Train Loss: 0.395, Train % var explained: 59.400%  Val Loss: 0.388, Val % var explained: 59.334%  
-Epoch 093: Train Loss: 0.395, Train % var explained: 59.424%  Val Loss: 0.388, Val % var explained: 59.365%  
-Epoch 094: Train Loss: 0.395, Train % var explained: 59.448%  Val Loss: 0.387, Val % var explained: 59.397%  
-Epoch 095: Train Loss: 0.395, Train % var explained: 59.470%  Val Loss: 0.387, Val % var explained: 59.429%  
-Epoch 096: Train Loss: 0.394, Train % var explained: 59.493%  Val Loss: 0.387, Val % var explained: 59.460%  
-Epoch 097: Train Loss: 0.394, Train % var explained: 59.514%  Val Loss: 0.387, Val % var explained: 59.491%  
-Epoch 098: Train Loss: 0.394, Train % var explained: 59.535%  Val Loss: 0.386, Val % var explained: 59.521%  
-Epoch 099: Train Loss: 0.394, Train % var explained: 59.555%  Val Loss: 0.386, Val % var explained: 59.551%  
-Epoch 100: Train Loss: 0.394, Train % var explained: 59.575%  Val Loss: 0.386, Val % var explained: 59.580%  
-Epoch 101: Train Loss: 0.394, Train % var explained: 59.594%  Val Loss: 0.385, Val % var explained: 59.609%  
-Epoch 102: Train Loss: 0.393, Train % var explained: 59.612%  Val Loss: 0.385, Val % var explained: 59.636%  
-Epoch 103: Train Loss: 0.393, Train % var explained: 59.630%  Val Loss: 0.385, Val % var explained: 59.663%  
-Epoch 104: Train Loss: 0.393, Train % var explained: 59.647%  Val Loss: 0.385, Val % var explained: 59.689%  
-Epoch 105: Train Loss: 0.393, Train % var explained: 59.664%  Val Loss: 0.384, Val % var explained: 59.714%  
-Epoch 106: Train Loss: 0.393, Train % var explained: 59.681%  Val Loss: 0.384, Val % var explained: 59.738%  
-Epoch 107: Train Loss: 0.393, Train % var explained: 59.697%  Val Loss: 0.384, Val % var explained: 59.762%  
-Epoch 108: Train Loss: 0.392, Train % var explained: 59.713%  Val Loss: 0.384, Val % var explained: 59.784%  
-Epoch 109: Train Loss: 0.392, Train % var explained: 59.728%  Val Loss: 0.383, Val % var explained: 59.806%  
-Epoch 110: Train Loss: 0.392, Train % var explained: 59.743%  Val Loss: 0.383, Val % var explained: 59.826%  
-Epoch 111: Train Loss: 0.392, Train % var explained: 59.757%  Val Loss: 0.383, Val % var explained: 59.846%  
-Epoch 112: Train Loss: 0.392, Train % var explained: 59.771%  Val Loss: 0.383, Val % var explained: 59.865%  
-Epoch 113: Train Loss: 0.392, Train % var explained: 59.785%  Val Loss: 0.383, Val % var explained: 59.884%  
-Epoch 114: Train Loss: 0.392, Train % var explained: 59.798%  Val Loss: 0.383, Val % var explained: 59.902%  
-Epoch 115: Train Loss: 0.392, Train % var explained: 59.811%  Val Loss: 0.382, Val % var explained: 59.919%  
-Epoch 116: Train Loss: 0.391, Train % var explained: 59.824%  Val Loss: 0.382, Val % var explained: 59.935%  
-Epoch 117: Train Loss: 0.391, Train % var explained: 59.836%  Val Loss: 0.382, Val % var explained: 59.951%  
-Epoch 118: Train Loss: 0.391, Train % var explained: 59.848%  Val Loss: 0.382, Val % var explained: 59.966%  
-Epoch 119: Train Loss: 0.391, Train % var explained: 59.860%  Val Loss: 0.382, Val % var explained: 59.981%  
-Epoch 120: Train Loss: 0.391, Train % var explained: 59.871%  Val Loss: 0.382, Val % var explained: 59.995%  
-Epoch 121: Train Loss: 0.391, Train % var explained: 59.882%  Val Loss: 0.382, Val % var explained: 60.008%  
-Epoch 122: Train Loss: 0.391, Train % var explained: 59.893%  Val Loss: 0.381, Val % var explained: 60.021%  
-Epoch 123: Train Loss: 0.391, Train % var explained: 59.903%  Val Loss: 0.381, Val % var explained: 60.034%  
-Epoch 124: Train Loss: 0.391, Train % var explained: 59.913%  Val Loss: 0.381, Val % var explained: 60.046%  
-Epoch 125: Train Loss: 0.390, Train % var explained: 59.923%  Val Loss: 0.381, Val % var explained: 60.058%  
-Epoch 126: Train Loss: 0.390, Train % var explained: 59.933%  Val Loss: 0.381, Val % var explained: 60.069%  
-Epoch 127: Train Loss: 0.390, Train % var explained: 59.942%  Val Loss: 0.381, Val % var explained: 60.080%  
-Epoch 128: Train Loss: 0.390, Train % var explained: 59.951%  Val Loss: 0.381, Val % var explained: 60.090%  
-Epoch 129: Train Loss: 0.390, Train % var explained: 59.960%  Val Loss: 0.381, Val % var explained: 60.100%  
-Epoch 130: Train Loss: 0.390, Train % var explained: 59.969%  Val Loss: 0.381, Val % var explained: 60.109%  
-Epoch 131: Train Loss: 0.390, Train % var explained: 59.977%  Val Loss: 0.380, Val % var explained: 60.119%  
-Epoch 132: Train Loss: 0.390, Train % var explained: 59.986%  Val Loss: 0.380, Val % var explained: 60.127%  
-Epoch 133: Train Loss: 0.390, Train % var explained: 59.994%  Val Loss: 0.380, Val % var explained: 60.136%  
-Epoch 134: Train Loss: 0.390, Train % var explained: 60.001%  Val Loss: 0.380, Val % var explained: 60.144%  
-Epoch 135: Train Loss: 0.390, Train % var explained: 60.009%  Val Loss: 0.380, Val % var explained: 60.152%  
-Epoch 136: Train Loss: 0.390, Train % var explained: 60.016%  Val Loss: 0.380, Val % var explained: 60.159%  
-Epoch 137: Train Loss: 0.390, Train % var explained: 60.023%  Val Loss: 0.380, Val % var explained: 60.166%  
-Epoch 138: Train Loss: 0.389, Train % var explained: 60.030%  Val Loss: 0.380, Val % var explained: 60.173%  
-Epoch 139: Train Loss: 0.389, Train % var explained: 60.037%  Val Loss: 0.380, Val % var explained: 60.180%  
-Epoch 140: Train Loss: 0.389, Train % var explained: 60.044%  Val Loss: 0.380, Val % var explained: 60.186%  
-Epoch 141: Train Loss: 0.389, Train % var explained: 60.050%  Val Loss: 0.380, Val % var explained: 60.192%  
-Epoch 142: Train Loss: 0.389, Train % var explained: 60.056%  Val Loss: 0.380, Val % var explained: 60.198%  
-Epoch 143: Train Loss: 0.389, Train % var explained: 60.062%  Val Loss: 0.380, Val % var explained: 60.203%  
-Epoch 144: Train Loss: 0.389, Train % var explained: 60.068%  Val Loss: 0.380, Val % var explained: 60.208%  
-Epoch 145: Train Loss: 0.389, Train % var explained: 60.074%  Val Loss: 0.380, Val % var explained: 60.213%  
-Epoch 146: Train Loss: 0.389, Train % var explained: 60.080%  Val Loss: 0.380, Val % var explained: 60.218%  
-Epoch 147: Train Loss: 0.389, Train % var explained: 60.085%  Val Loss: 0.379, Val % var explained: 60.223%  
-Epoch 148: Train Loss: 0.389, Train % var explained: 60.091%  Val Loss: 0.379, Val % var explained: 60.227%  
-Epoch 149: Train Loss: 0.389, Train % var explained: 60.096%  Val Loss: 0.379, Val % var explained: 60.231%  
-Epoch 150: Train Loss: 0.389, Train % var explained: 60.101%  Val Loss: 0.379, Val % var explained: 60.235%  
-Epoch 151: Train Loss: 0.389, Train % var explained: 60.106%  Val Loss: 0.379, Val % var explained: 60.239%  
-Epoch 152: Train Loss: 0.389, Train % var explained: 60.110%  Val Loss: 0.379, Val % var explained: 60.243%  
-Epoch 153: Train Loss: 0.389, Train % var explained: 60.115%  Val Loss: 0.379, Val % var explained: 60.246%  
-Epoch 154: Train Loss: 0.389, Train % var explained: 60.120%  Val Loss: 0.379, Val % var explained: 60.249%  
-Epoch 155: Train Loss: 0.389, Train % var explained: 60.124%  Val Loss: 0.379, Val % var explained: 60.252%  
-Epoch 156: Train Loss: 0.389, Train % var explained: 60.128%  Val Loss: 0.379, Val % var explained: 60.255%  
-Epoch 157: Train Loss: 0.388, Train % var explained: 60.132%  Val Loss: 0.379, Val % var explained: 60.258%  
-Epoch 158: Train Loss: 0.388, Train % var explained: 60.136%  Val Loss: 0.379, Val % var explained: 60.261%  
-Epoch 159: Train Loss: 0.388, Train % var explained: 60.140%  Val Loss: 0.379, Val % var explained: 60.264%  
-Epoch 160: Train Loss: 0.388, Train % var explained: 60.144%  Val Loss: 0.379, Val % var explained: 60.266%  
-Epoch 161: Train Loss: 0.388, Train % var explained: 60.148%  Val Loss: 0.379, Val % var explained: 60.268%  
-Epoch 162: Train Loss: 0.388, Train % var explained: 60.152%  Val Loss: 0.379, Val % var explained: 60.271%  
-Epoch 163: Train Loss: 0.388, Train % var explained: 60.155%  Val Loss: 0.379, Val % var explained: 60.273%  
-Epoch 164: Train Loss: 0.388, Train % var explained: 60.159%  Val Loss: 0.379, Val % var explained: 60.275%  
-Epoch 165: Train Loss: 0.388, Train % var explained: 60.162%  Val Loss: 0.379, Val % var explained: 60.277%  
-Epoch 166: Train Loss: 0.388, Train % var explained: 60.165%  Val Loss: 0.379, Val % var explained: 60.279%  
-Epoch 167: Train Loss: 0.388, Train % var explained: 60.169%  Val Loss: 0.379, Val % var explained: 60.280%  
-Epoch 168: Train Loss: 0.388, Train % var explained: 60.172%  Val Loss: 0.379, Val % var explained: 60.282%  
-Epoch 169: Train Loss: 0.388, Train % var explained: 60.175%  Val Loss: 0.379, Val % var explained: 60.284%  
-Epoch 170: Train Loss: 0.388, Train % var explained: 60.178%  Val Loss: 0.379, Val % var explained: 60.285%  
-Epoch 171: Train Loss: 0.388, Train % var explained: 60.181%  Val Loss: 0.379, Val % var explained: 60.287%  
-Epoch 172: Train Loss: 0.388, Train % var explained: 60.183%  Val Loss: 0.379, Val % var explained: 60.288%  
-Epoch 173: Train Loss: 0.388, Train % var explained: 60.186%  Val Loss: 0.379, Val % var explained: 60.289%  
-Epoch 174: Train Loss: 0.388, Train % var explained: 60.189%  Val Loss: 0.379, Val % var explained: 60.290%  
-Epoch 175: Train Loss: 0.388, Train % var explained: 60.191%  Val Loss: 0.379, Val % var explained: 60.292%  
-Epoch 176: Train Loss: 0.388, Train % var explained: 60.194%  Val Loss: 0.379, Val % var explained: 60.293%  
-Epoch 177: Train Loss: 0.388, Train % var explained: 60.196%  Val Loss: 0.379, Val % var explained: 60.294%  
-Epoch 178: Train Loss: 0.388, Train % var explained: 60.199%  Val Loss: 0.379, Val % var explained: 60.295%  
-Epoch 179: Train Loss: 0.388, Train % var explained: 60.201%  Val Loss: 0.379, Val % var explained: 60.296%  
-Epoch 180: Train Loss: 0.388, Train % var explained: 60.203%  Val Loss: 0.379, Val % var explained: 60.296%  
-Epoch 181: Train Loss: 0.388, Train % var explained: 60.206%  Val Loss: 0.379, Val % var explained: 60.297%  
-Epoch 182: Train Loss: 0.388, Train % var explained: 60.208%  Val Loss: 0.379, Val % var explained: 60.298%  
-Epoch 183: Train Loss: 0.388, Train % var explained: 60.210%  Val Loss: 0.379, Val % var explained: 60.299%  
-Epoch 184: Train Loss: 0.388, Train % var explained: 60.212%  Val Loss: 0.379, Val % var explained: 60.300%  
-Epoch 185: Train Loss: 0.388, Train % var explained: 60.214%  Val Loss: 0.379, Val % var explained: 60.300%  
-Epoch 186: Train Loss: 0.388, Train % var explained: 60.216%  Val Loss: 0.379, Val % var explained: 60.301%  
-Epoch 187: Train Loss: 0.388, Train % var explained: 60.218%  Val Loss: 0.379, Val % var explained: 60.301%  
-Epoch 188: Train Loss: 0.388, Train % var explained: 60.220%  Val Loss: 0.379, Val % var explained: 60.302%  
-Epoch 189: Train Loss: 0.388, Train % var explained: 60.222%  Val Loss: 0.379, Val % var explained: 60.303%  
-Epoch 190: Train Loss: 0.388, Train % var explained: 60.223%  Val Loss: 0.379, Val % var explained: 60.303%  
-Epoch 191: Train Loss: 0.388, Train % var explained: 60.225%  Val Loss: 0.379, Val % var explained: 60.304%  
-Epoch 192: Train Loss: 0.388, Train % var explained: 60.227%  Val Loss: 0.379, Val % var explained: 60.304%  
-Epoch 193: Train Loss: 0.387, Train % var explained: 60.229%  Val Loss: 0.379, Val % var explained: 60.304%  
-Epoch 194: Train Loss: 0.387, Train % var explained: 60.230%  Val Loss: 0.379, Val % var explained: 60.305%  
-Epoch 195: Train Loss: 0.387, Train % var explained: 60.232%  Val Loss: 0.379, Val % var explained: 60.305%  
-Epoch 196: Train Loss: 0.387, Train % var explained: 60.233%  Val Loss: 0.379, Val % var explained: 60.306%  
-Epoch 197: Train Loss: 0.387, Train % var explained: 60.235%  Val Loss: 0.379, Val % var explained: 60.306%  
-Epoch 198: Train Loss: 0.387, Train % var explained: 60.236%  Val Loss: 0.379, Val % var explained: 60.306%  
-Epoch 199: Train Loss: 0.387, Train % var explained: 60.238%  Val Loss: 0.379, Val % var explained: 60.307%  
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 000: Train Loss: 436.135, Train % var explained: -32331.259%  Val Loss: 5.431, Val % var explained: -467.990%  
+Epoch 001: Train Loss: 3.598, Train % var explained: -265.226%  Val Loss: 2.243, Val % var explained: -134.422%  
+Epoch 002: Train Loss: 2.140, Train % var explained: -119.272%  Val Loss: 1.593, Val % var explained: -66.362%  
+Epoch 003: Train Loss: 1.668, Train % var explained: -71.003%  Val Loss: 1.328, Val % var explained: -38.565%  
+Epoch 004: Train Loss: 1.440, Train % var explained: -47.602%  Val Loss: 1.203, Val % var explained: -25.459%  
+Epoch 005: Train Loss: 1.310, Train % var explained: -34.159%  Val Loss: 1.114, Val % var explained: -16.129%  
+Epoch 006: Train Loss: 1.225, Train % var explained: -25.337%  Val Loss: 1.018, Val % var explained: -6.211%  
+Epoch 007: Train Loss: 1.167, Train % var explained: -19.273%  Val Loss: 0.941, Val % var explained: 1.839%  
+Epoch 008: Train Loss: 1.126, Train % var explained: -15.017%  Val Loss: 0.893, Val % var explained: 6.762%  
+Epoch 009: Train Loss: 1.095, Train % var explained: -11.787%  Val Loss: 0.882, Val % var explained: 7.953%  
+Epoch 010: Train Loss: 1.069, Train % var explained: -9.136%  Val Loss: 0.895, Val % var explained: 6.584%  
+Epoch 011: Train Loss: 1.048, Train % var explained: -6.932%  Val Loss: 0.905, Val % var explained: 5.619%  
+Epoch 012: Train Loss: 1.031, Train % var explained: -5.205%  Val Loss: 0.898, Val % var explained: 6.359%  
+Epoch 013: Train Loss: 1.019, Train % var explained: -3.906%  Val Loss: 0.884, Val % var explained: 7.818%  
+Epoch 014: Train Loss: 1.010, Train % var explained: -2.920%  Val Loss: 0.875, Val % var explained: 8.778%  
+Epoch 015: Train Loss: 1.003, Train % var explained: -2.193%  Val Loss: 0.879, Val % var explained: 8.362%  
+Epoch 016: Train Loss: 1.000, Train % var explained: -1.709%  Val Loss: 0.897, Val % var explained: 6.570%  
+Epoch 017: Train Loss: 0.998, Train % var explained: -1.435%  Val Loss: 0.920, Val % var explained: 4.245%  
+Epoch 018: Train Loss: 0.997, Train % var explained: -1.303%  Val Loss: 0.942, Val % var explained: 1.914%  
+Epoch 019: Train Loss: 0.997, Train % var explained: -1.225%  Val Loss: 0.965, Val % var explained: -0.358%  
+Epoch 020: Train Loss: 0.997, Train % var explained: -1.144%  Val Loss: 0.982, Val % var explained: -2.100%  
+Epoch 021: Train Loss: 0.997, Train % var explained: -1.056%  Val Loss: 0.987, Val % var explained: -2.592%  
+Epoch 022: Train Loss: 0.997, Train % var explained: -0.956%  Val Loss: 0.975, Val % var explained: -1.393%  
+Epoch 023: Train Loss: 0.996, Train % var explained: -0.815%  Val Loss: 0.947, Val % var explained: 1.492%  
+Epoch 024: Train Loss: 0.994, Train % var explained: -0.621%  Val Loss: 0.908, Val % var explained: 5.584%  
+Epoch 025: Train Loss: 0.992, Train % var explained: -0.397%  Val Loss: 0.865, Val % var explained: 10.034%  
+Epoch 026: Train Loss: 0.990, Train % var explained: -0.171%  Val Loss: 0.827, Val % var explained: 14.021%  
+Epoch 027: Train Loss: 0.988, Train % var explained: 0.041%  Val Loss: 0.797, Val % var explained: 17.173%  
+Epoch 028: Train Loss: 0.987, Train % var explained: 0.234%  Val Loss: 0.774, Val % var explained: 19.567%  
+Epoch 029: Train Loss: 0.985, Train % var explained: 0.396%  Val Loss: 0.757, Val % var explained: 21.419%  
+Epoch 030: Train Loss: 0.985, Train % var explained: 0.499%  Val Loss: 0.743, Val % var explained: 22.886%  
+Epoch 031: Train Loss: 0.985, Train % var explained: 0.505%  Val Loss: 0.732, Val % var explained: 24.002%  
+Epoch 032: Train Loss: 0.987, Train % var explained: 0.400%  Val Loss: 0.726, Val % var explained: 24.681%  
+Epoch 033: Train Loss: 0.990, Train % var explained: 0.209%  Val Loss: 0.724, Val % var explained: 24.822%  
+Epoch 034: Train Loss: 0.993, Train % var explained: -0.016%  Val Loss: 0.728, Val % var explained: 24.419%  
+Epoch 035: Train Loss: 0.995, Train % var explained: -0.234%  Val Loss: 0.737, Val % var explained: 23.552%  
+Epoch 036: Train Loss: 0.998, Train % var explained: -0.425%  Val Loss: 0.749, Val % var explained: 22.322%  
+Epoch 037: Train Loss: 1.000, Train % var explained: -0.590%  Val Loss: 0.764, Val % var explained: 20.810%  
+Epoch 038: Train Loss: 1.002, Train % var explained: -0.732%  Val Loss: 0.781, Val % var explained: 19.088%  
+Epoch 039: Train Loss: 1.003, Train % var explained: -0.846%  Val Loss: 0.798, Val % var explained: 17.253%  
+Epoch 040: Train Loss: 1.004, Train % var explained: -0.909%  Val Loss: 0.816, Val % var explained: 15.467%  
+Epoch 041: Train Loss: 1.004, Train % var explained: -0.890%  Val Loss: 0.830, Val % var explained: 13.959%  
+Epoch 042: Train Loss: 1.003, Train % var explained: -0.772%  Val Loss: 0.840, Val % var explained: 12.965%  
+Epoch 043: Train Loss: 1.001, Train % var explained: -0.570%  Val Loss: 0.843, Val % var explained: 12.647%  
+Epoch 044: Train Loss: 0.998, Train % var explained: -0.332%  Val Loss: 0.839, Val % var explained: 13.058%  
+Epoch 045: Train Loss: 0.995, Train % var explained: -0.114%  Val Loss: 0.828, Val % var explained: 14.144%  
+Epoch 046: Train Loss: 0.994, Train % var explained: 0.038%  Val Loss: 0.813, Val % var explained: 15.746%  
+Epoch 047: Train Loss: 0.993, Train % var explained: 0.105%  Val Loss: 0.795, Val % var explained: 17.592%  
+Epoch 048: Train Loss: 0.993, Train % var explained: 0.092%  Val Loss: 0.777, Val % var explained: 19.370%  
+Epoch 049: Train Loss: 0.994, Train % var explained: 0.017%  Val Loss: 0.763, Val % var explained: 20.856%  
+Epoch 050: Train Loss: 0.996, Train % var explained: -0.098%  Val Loss: 0.752, Val % var explained: 21.994%  
+Epoch 051: Train Loss: 0.997, Train % var explained: -0.231%  Val Loss: 0.743, Val % var explained: 22.854%  
+Epoch 052: Train Loss: 0.999, Train % var explained: -0.363%  Val Loss: 0.737, Val % var explained: 23.533%  
+Epoch 053: Train Loss: 1.000, Train % var explained: -0.483%  Val Loss: 0.731, Val % var explained: 24.098%  
+Epoch 054: Train Loss: 1.001, Train % var explained: -0.586%  Val Loss: 0.727, Val % var explained: 24.573%  
+Epoch 055: Train Loss: 1.002, Train % var explained: -0.675%  Val Loss: 0.723, Val % var explained: 24.946%  
+Epoch 056: Train Loss: 1.003, Train % var explained: -0.754%  Val Loss: 0.721, Val % var explained: 25.165%  
+Epoch 057: Train Loss: 1.003, Train % var explained: -0.812%  Val Loss: 0.721, Val % var explained: 25.125%  
+Epoch 058: Train Loss: 1.003, Train % var explained: -0.807%  Val Loss: 0.725, Val % var explained: 24.704%  
+Epoch 059: Train Loss: 1.002, Train % var explained: -0.680%  Val Loss: 0.733, Val % var explained: 23.872%  
+Epoch 060: Train Loss: 0.999, Train % var explained: -0.428%  Val Loss: 0.743, Val % var explained: 22.778%  
+Epoch 061: Train Loss: 0.996, Train % var explained: -0.130%  Val Loss: 0.755, Val % var explained: 21.616%  
+Epoch 062: Train Loss: 0.992, Train % var explained: 0.147%  Val Loss: 0.765, Val % var explained: 20.490%  
+Epoch 063: Train Loss: 0.990, Train % var explained: 0.394%  Val Loss: 0.775, Val % var explained: 19.462%  
+Epoch 064: Train Loss: 0.987, Train % var explained: 0.628%  Val Loss: 0.783, Val % var explained: 18.619%  
+Epoch 065: Train Loss: 0.984, Train % var explained: 0.867%  Val Loss: 0.789, Val % var explained: 18.061%  
+Epoch 066: Train Loss: 0.981, Train % var explained: 1.115%  Val Loss: 0.790, Val % var explained: 17.843%  
+Epoch 067: Train Loss: 0.978, Train % var explained: 1.365%  Val Loss: 0.789, Val % var explained: 17.927%  
+Epoch 068: Train Loss: 0.975, Train % var explained: 1.603%  Val Loss: 0.787, Val % var explained: 18.186%  
+Epoch 069: Train Loss: 0.973, Train % var explained: 1.813%  Val Loss: 0.784, Val % var explained: 18.489%  
+Epoch 070: Train Loss: 0.970, Train % var explained: 1.992%  Val Loss: 0.781, Val % var explained: 18.756%  
+Epoch 071: Train Loss: 0.968, Train % var explained: 2.142%  Val Loss: 0.779, Val % var explained: 18.965%  
+Epoch 072: Train Loss: 0.967, Train % var explained: 2.268%  Val Loss: 0.777, Val % var explained: 19.122%  
+Epoch 073: Train Loss: 0.965, Train % var explained: 2.375%  Val Loss: 0.776, Val % var explained: 19.244%  
+Epoch 074: Train Loss: 0.964, Train % var explained: 2.466%  Val Loss: 0.775, Val % var explained: 19.344%  
+Epoch 075: Train Loss: 0.963, Train % var explained: 2.545%  Val Loss: 0.774, Val % var explained: 19.434%  
+Epoch 076: Train Loss: 0.962, Train % var explained: 2.615%  Val Loss: 0.773, Val % var explained: 19.518%  
+Epoch 077: Train Loss: 0.961, Train % var explained: 2.681%  Val Loss: 0.773, Val % var explained: 19.594%  
+Epoch 078: Train Loss: 0.960, Train % var explained: 2.746%  Val Loss: 0.772, Val % var explained: 19.658%  
+Epoch 079: Train Loss: 0.959, Train % var explained: 2.814%  Val Loss: 0.771, Val % var explained: 19.709%  
+Epoch 080: Train Loss: 0.958, Train % var explained: 2.887%  Val Loss: 0.771, Val % var explained: 19.755%  
+Epoch 081: Train Loss: 0.957, Train % var explained: 2.966%  Val Loss: 0.770, Val % var explained: 19.819%  
+Epoch 082: Train Loss: 0.955, Train % var explained: 3.051%  Val Loss: 0.769, Val % var explained: 19.937%  
+Epoch 083: Train Loss: 0.954, Train % var explained: 3.141%  Val Loss: 0.767, Val % var explained: 20.131%  
+Epoch 084: Train Loss: 0.953, Train % var explained: 3.235%  Val Loss: 0.764, Val % var explained: 20.388%  
+Epoch 085: Train Loss: 0.952, Train % var explained: 3.331%  Val Loss: 0.762, Val % var explained: 20.679%  
+Epoch 086: Train Loss: 0.950, Train % var explained: 3.425%  Val Loss: 0.759, Val % var explained: 20.982%  
+Epoch 087: Train Loss: 0.949, Train % var explained: 3.511%  Val Loss: 0.755, Val % var explained: 21.309%  
+Epoch 088: Train Loss: 0.948, Train % var explained: 3.586%  Val Loss: 0.752, Val % var explained: 21.680%  
+Epoch 089: Train Loss: 0.947, Train % var explained: 3.646%  Val Loss: 0.748, Val % var explained: 22.093%  
+Epoch 090: Train Loss: 0.946, Train % var explained: 3.690%  Val Loss: 0.744, Val % var explained: 22.486%  
+Epoch 091: Train Loss: 0.946, Train % var explained: 3.714%  Val Loss: 0.742, Val % var explained: 22.733%  
+Epoch 092: Train Loss: 0.946, Train % var explained: 3.712%  Val Loss: 0.742, Val % var explained: 22.700%  
+Epoch 093: Train Loss: 0.946, Train % var explained: 3.667%  Val Loss: 0.746, Val % var explained: 22.314%  
+Epoch 094: Train Loss: 0.947, Train % var explained: 3.560%  Val Loss: 0.753, Val % var explained: 21.607%  
+Epoch 095: Train Loss: 0.948, Train % var explained: 3.400%  Val Loss: 0.761, Val % var explained: 20.796%  
+Epoch 096: Train Loss: 0.949, Train % var explained: 3.311%  Val Loss: 0.765, Val % var explained: 20.397%  
+Epoch 097: Train Loss: 0.947, Train % var explained: 3.466%  Val Loss: 0.762, Val % var explained: 20.665%  
+Epoch 098: Train Loss: 0.943, Train % var explained: 3.732%  Val Loss: 0.757, Val % var explained: 21.147%  
+Epoch 099: Train Loss: 0.941, Train % var explained: 3.929%  Val Loss: 0.753, Val % var explained: 21.580%  
 </pre></div>
 </div>
 </div>
@@ -584,8 +490,8 @@ Epoch 199: Train Loss: 0.387, Train % var explained: 60.238%  Val Loss: 0.379, V
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/NLNN_timeseries_simulation_10_0.png" src="_images/NLNN_timeseries_simulation_10_0.png" />
-<img alt="_images/NLNN_timeseries_simulation_10_1.png" src="_images/NLNN_timeseries_simulation_10_1.png" />
+<img alt="_images/NLNN_timeseries_simulation_randomdata_10_0.png" src="_images/NLNN_timeseries_simulation_randomdata_10_0.png" />
+<img alt="_images/NLNN_timeseries_simulation_randomdata_10_1.png" src="_images/NLNN_timeseries_simulation_randomdata_10_1.png" />
 </div>
 </div>
 </div>
@@ -620,8 +526,7 @@ Epoch 199: Train Loss: 0.387, Train % var explained: 60.238%  Val Loss: 0.379, V
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="NLNN_CC_Randomization.html" title="previous page">Breaking Down Classifier</a>
-    <a class='right-next' id="next-link" href="Linear_Regression_timeseries_simulation.html" title="next page">Linear Regression for timeseries simulation</a>
+    <a class='left-prev' id="prev-link" href="Linear_Regression_timeseries_simulation.html" title="previous page">Linear Regression for timeseries simulation</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">

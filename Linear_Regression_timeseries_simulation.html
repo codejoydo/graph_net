@@ -1,0 +1,470 @@
+
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Linear Regression for timeseries simulation &#8212; Graph Networks on fMRI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
+    <link href="_static/css/index.css" rel="stylesheet">
+    <link rel="stylesheet" href="_static/sphinx-book-theme.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/sphinx-book-theme.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/sphinx-book-theme.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Predicting next time point shuffled across participants" href="NLNN_timeseries_simulation_randomdata.html" />
+    <link rel="prev" title="Timeseries Simulation" href="NLNN_timeseries_simulation.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="docsearch:language" content="en">
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="index.html">
+  
+  
+  <h1 class="site-logo" id="site-title">Graph Networks on fMRI</h1>
+  
+</a>
+</div>
+
+<form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="NLNN_intro.html">
+   What is NLNN?
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Experiments with NLNN
+ </span>
+</p>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="NLNN_Clip_Classifier.html">
+   Clip Classifier
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="NLNN_CC_Randomization.html">
+   Breaking Down Classifier
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="NLNN_timeseries_simulation.html">
+   Timeseries Simulation
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Linear Regression for timeseries simulation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="NLNN_timeseries_simulation_randomdata.html">
+   Predicting next time point shuffled across participants
+  </a>
+ </li>
+</ul>
+
+</nav>
+
+ <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        <div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/Linear_Regression_timeseries_simulation.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+    
+</div>
+        <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/codejoydo/graph_net"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/codejoydo/graph_net/issues/new?title=Issue%20on%20page%20%2FLinear_Regression_timeseries_simulation.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/codejoydo/graph_net/edit/master/Linear_Regression_timeseries_simulation.ipynb"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                data-placement="bottom" onclick="toggleFullScreen()" title="Fullscreen mode"><i
+                    class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+
+    </div>
+
+    <!-- Table of contents -->
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#load-data">
+   Load data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#create-graphs-from-data">
+   Create graphs from data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#performance-evaluation">
+   Performance evaluation
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#model-training">
+     Model training
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+        </nav>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="linear-regression-for-timeseries-simulation">
+<h1>Linear Regression for timeseries simulation<a class="headerlink" href="#linear-regression-for-timeseries-simulation" title="Permalink to this headline">¶</a></h1>
+<p>Here, the predicted timepoint is expressed as a linear combination of the past <span class="math notranslate nohighlight">\(k\)</span> timepoints.
+The model is:
+<span class="math notranslate nohighlight">\(
+    \begin{bmatrix} 
+        | \\ 
+        \textbf{x}_{t} \\ 
+        | 
+    \end{bmatrix}_{\text{\#ROI} \times 1} = 
+    % 
+    \begin{bmatrix} 
+        | &amp;  &amp; |\\ 
+        \textbf{x}_{t-1} &amp; \cdots &amp; \textbf{x}_{t-k} \\ 
+        | &amp;  &amp; | 
+    \end{bmatrix}_{\text{\#ROI} \times k} 
+    % 
+    \begin{bmatrix}
+        w_{1} \\
+        \vdots \\
+        w_{k}
+    \end{bmatrix}_{k \times 1} +
+    % 
+    \begin{bmatrix}
+        b_{1} \\
+        \vdots \\
+        b_{\text{\#ROI}}
+    \end{bmatrix}_{\text{\#ROI} \times 1}
+\)</span></p>
+<div class="section" id="load-data">
+<h2>Load data<a class="headerlink" href="#load-data" title="Permalink to this headline">¶</a></h2>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load dataset </span>
+<span class="n">X</span><span class="p">,</span> <span class="n">X_len</span><span class="p">,</span> <span class="n">clip_y</span><span class="p">,</span> <span class="n">num_subjs</span><span class="p">,</span> <span class="n">num_clips</span> <span class="o">=</span> <span class="n">get_data</span><span class="p">()</span>
+
+<span class="c1"># clip names</span>
+<span class="n">clip_name_to_idx</span> <span class="o">=</span> <span class="n">_get_clip_labels</span><span class="p">()</span>
+<span class="n">clip_idx_to_name</span> <span class="o">=</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span> <span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">clip_name_to_idx</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+<span class="n">clip_idx_to_name</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">clip_idx_to_name</span><span class="p">[</span><span class="mi">0</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># get rid of run number in test-retest</span>
+<span class="n">clip_names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">clip_idx_to_name</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+<span class="c1"># # Pad each time-series with zeros to equalize lengths</span>
+<span class="c1"># X = pad_data(X)</span>
+
+<span class="c1"># Fix a clip for simulating its trajectory</span>
+<span class="n">clip_num</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">X_clip</span> <span class="o">=</span> <span class="p">[</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">clip_y</span><span class="p">))</span> <span class="k">if</span> <span class="n">clip_y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">clip_num</span><span class="p">]</span>
+<span class="n">y_clip</span> <span class="o">=</span> <span class="p">[</span><span class="n">clip_y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">clip_y</span><span class="p">))</span> <span class="k">if</span> <span class="n">clip_y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">clip_num</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>loading run 1/1
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="create-graphs-from-data">
+<h2>Create graphs from data<a class="headerlink" href="#create-graphs-from-data" title="Permalink to this headline">¶</a></h2>
+<p>Here we use a history of length k = 5.</p>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create data </span>
+<span class="n">X</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="c1"># Length of memory/history of data-sequence </span>
+<span class="n">k</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="k">for</span> <span class="n">idx_subj</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_subjs</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">X_clip</span><span class="p">[</span><span class="n">idx_subj</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">idx_tp</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="n">x_tp</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">idx_tp</span> <span class="o">-</span> <span class="n">k</span> <span class="p">:</span> <span class="n">idx_tp</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="n">y_tp</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">idx_tp</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="n">X</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x_tp</span><span class="p">)</span>
+        <span class="n">y</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y_tp</span><span class="p">)</span>
+
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="performance-evaluation">
+<h2>Performance evaluation<a class="headerlink" href="#performance-evaluation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="model-training">
+<h3>Model training<a class="headerlink" href="#model-training" title="Permalink to this headline">¶</a></h3>
+<div class="cell tag_remove-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Train, test split</span>
+<span class="n">num_X</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">num_train</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="mf">0.8</span> <span class="o">*</span> <span class="n">num_X</span><span class="p">)</span>
+<span class="n">num_val</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">num_X</span>
+<span class="n">num_test</span> <span class="o">=</span> <span class="n">num_X</span> <span class="o">-</span> <span class="n">num_train</span> <span class="o">-</span> <span class="n">num_val</span>
+
+<span class="n">num_splits</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">test_accuracy_results</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">idx_split</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_splits</span><span class="p">):</span>
+    
+    <span class="c1"># Create split</span>
+    <span class="n">train_G</span><span class="p">,</span> <span class="n">train_y</span><span class="p">,</span> <span class="n">val_G</span><span class="p">,</span> <span class="n">val_y</span><span class="p">,</span> <span class="n">test_G</span><span class="p">,</span> <span class="n">test_y</span> <span class="o">=</span> <span class="n">train_val_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span>
+                                                                          <span class="n">y</span><span class="p">,</span>
+                                                                          <span class="n">num_train</span><span class="p">,</span>
+                                                                          <span class="n">num_val</span><span class="p">,</span>
+                                                                          <span class="n">num_test</span><span class="p">)</span>
+
+    <span class="c1"># model = snt.nets.MLP(output_sizes=[300])</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">(</span><span class="n">output_size</span><span class="o">=</span><span class="n">train_G</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> 
+                             <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
+    
+    <span class="n">default_slice</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="n">start</span> <span class="p">:</span> <span class="n">end</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
+    
+    <span class="n">NLNN_simulator</span> <span class="o">=</span> <span class="n">base_model</span><span class="p">(</span><span class="n">task_type</span><span class="o">=</span><span class="s2">&quot;regression&quot;</span><span class="p">,</span>
+                                <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+                                <span class="n">loss_object</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">MeanSquaredError</span><span class="p">(),</span>
+                                <span class="n">optimizer</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">optimizers</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.001</span><span class="p">),</span>
+                                <span class="n">eval_metric</span><span class="o">=</span><span class="n">tfa</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">RSquare</span><span class="p">(),</span>
+                                <span class="n">eval_metric_name</span><span class="o">=</span><span class="s2">&quot;% var explained&quot;</span><span class="p">,</span>
+                                <span class="n">batch_size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
+                                <span class="n">slice_input</span><span class="o">=</span><span class="n">default_slice</span><span class="p">)</span>
+    
+    <span class="n">results</span> <span class="o">=</span> <span class="n">NLNN_simulator</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_X</span><span class="o">=</span><span class="n">train_G</span><span class="p">,</span>
+                                 <span class="n">train_Y</span><span class="o">=</span><span class="n">train_y</span><span class="p">,</span>
+                                 <span class="n">val_X</span><span class="o">=</span><span class="n">test_G</span><span class="p">,</span>
+                                 <span class="n">val_Y</span><span class="o">=</span><span class="n">test_y</span><span class="p">,</span>
+                                 <span class="n">num_epochs</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">NLNN_simulator</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">NLNN_simulator</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">bias</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(10560, 5, 300) (5,) (300,)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_loss_results</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">train_pve_results</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">test_loss_results</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">test_pve_results</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+
+<span class="c1"># Training metrics</span>
+<span class="n">fig_tr</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">fig_tr</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;Training Metrics&#39;</span><span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;log(Loss)&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">train_loss_results</span><span class="p">))</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Percentage Variance Explained&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Epoch&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">train_pve_results</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Validation metrics</span>
+<span class="n">fig_val</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">fig_val</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;Validation Metrics&#39;</span><span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;log(Loss)&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">test_loss_results</span><span class="p">))</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Percentage Variance Explained&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Epoch&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">test_pve_results</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/Linear_Regression_timeseries_simulation_11_0.png" src="_images/Linear_Regression_timeseries_simulation_11_0.png" />
+<img alt="_images/Linear_Regression_timeseries_simulation_11_1.png" src="_images/Linear_Regression_timeseries_simulation_11_1.png" />
+</div>
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+    <a class='left-prev' id="prev-link" href="NLNN_timeseries_simulation.html" title="previous page">Timeseries Simulation</a>
+    <a class='right-next' id="next-link" href="NLNN_timeseries_simulation_randomdata.html" title="next page">Predicting next time point shuffled across participants</a>
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Govinda and Joyneel<br/>
+        
+            &copy; Copyright 2020.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    <script src="_static/js/index.js"></script>
+    
+  </body>
+</html>
