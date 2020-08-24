@@ -24,12 +24,12 @@
     <script src="_static/togglebutton.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
-    <script src="_static/mystnb.js"></script>
     <script src="_static/sphinx-book-theme.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -240,14 +240,14 @@
 <h1>Breaking Down Classifier<a class="headerlink" href="#breaking-down-classifier" title="Permalink to this headline">¶</a></h1>
 <div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span><span class="p">,</span> <span class="n">HTML</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span><span class="p">,</span> <span class="n">HTML</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">absolute_import</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">absolute_import</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">division</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
 
@@ -364,12 +364,12 @@ var n,a=t("./lib/build-log"),i=t("./lib/epsilon"),o=t("./lib/intersecter"),s=t("
 </div>
 <div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">list_physical_devices</span><span class="p">(</span><span class="s1">&#39;GPU&#39;</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">list_physical_devices</span><span class="p">(</span><span class="s1">&#39;GPU&#39;</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[PhysicalDevice(name=&#39;/physical_device:GPU:0&#39;, device_type=&#39;GPU&#39;), PhysicalDevice(name=&#39;/physical_device:GPU:1&#39;, device_type=&#39;GPU&#39;)]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[PhysicalDevice(name=&#39;/physical_device:GPU:0&#39;, device_type=&#39;GPU&#39;), PhysicalDevice(name=&#39;/physical_device:GPU:1&#39;, device_type=&#39;GPU&#39;)]
 </pre></div>
 </div>
 </div>
@@ -378,7 +378,7 @@ var n,a=t("./lib/build-log"),i=t("./lib/epsilon"),o=t("./lib/intersecter"),s=t("
 <h2>Load data<a class="headerlink" href="#load-data" title="Permalink to this headline">¶</a></h2>
 <div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load dataset </span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load dataset </span>
 <span class="n">X</span><span class="p">,</span> <span class="n">X_len</span><span class="p">,</span> <span class="n">clip_y</span><span class="p">,</span> <span class="n">num_subjs</span><span class="p">,</span> <span class="n">num_clips</span> <span class="o">=</span> <span class="n">get_data</span><span class="p">()</span>
 
 <span class="c1"># clip names</span>
@@ -389,12 +389,11 @@ var n,a=t("./lib/build-log"),i=t("./lib/epsilon"),o=t("./lib/intersecter"),s=t("
 
 <span class="c1"># Pad each time-series with zeros to equalize lengths</span>
 <span class="n">X</span> <span class="o">=</span> <span class="n">pad_data</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>loading run 1/4
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>loading run 1/4
 loading run 2/4
 loading run 3/4
 loading run 4/4
@@ -407,7 +406,7 @@ loading run 4/4
 <h2>Create graphs from data<a class="headerlink" href="#create-graphs-from-data" title="Permalink to this headline">¶</a></h2>
 <div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create graphs from data</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create graphs from data</span>
 <span class="n">prob_edge</span> <span class="o">=</span> <span class="mf">0.0</span>
 <span class="n">graphs_dict_list</span> <span class="o">=</span> <span class="n">clip_graphs</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> 
                                <span class="n">prob_edge</span><span class="o">=</span><span class="n">prob_edge</span><span class="p">)</span>
@@ -425,7 +424,7 @@ loading run 4/4
 <h3>Cross-validation<a class="headerlink" href="#cross-validation" title="Permalink to this headline">¶</a></h3>
 <div class="cell tag_hide-cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">model_train_test</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">train_G</span><span class="p">,</span> <span class="n">train_y</span><span class="p">,</span> <span class="n">test_G</span><span class="p">,</span> <span class="n">test_y</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">model_train_test</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">train_G</span><span class="p">,</span> <span class="n">train_y</span><span class="p">,</span> <span class="n">test_G</span><span class="p">,</span> <span class="n">test_y</span><span class="p">):</span>
     
     <span class="n">template</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Train Accuracy: </span><span class="si">{:.3%}</span><span class="s2">, &quot;</span> 
                 <span class="s2">&quot;Test Accuracy: </span><span class="si">{:.3%}</span><span class="s2">  &quot;</span><span class="p">)</span>
@@ -512,7 +511,7 @@ loading run 4/4
 <p>We shuffle the labels of the 100 training subjects’ data and check model performance on 76 test participants’ data</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Total number of movies watched by each participant</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Total number of movies watched by each participant</span>
 <span class="c1"># Because there are four runs of test-retest (clip #0)</span>
 <span class="n">num_movies</span> <span class="o">=</span> <span class="mi">18</span>
 
@@ -557,7 +556,7 @@ loading run 4/4
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>10/10 [==============================] - 41s 4s/step
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10/10 [==============================] - 41s 4s/step
 Train Accuracy: 100.000%, Test Accuracy: 12.939%  
 10/10 [==============================] - 34s 3s/step
 Train Accuracy: 100.000%, Test Accuracy: 15.351%  
@@ -587,7 +586,7 @@ Mean test set accuracy: 13.282%
 <h4>With true labels<a class="headerlink" href="#with-true-labels" title="Permalink to this headline">¶</a></h4>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Total number of movies watched by each participant</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Total number of movies watched by each participant</span>
 <span class="c1"># Because there are four runs of test-retest (clip #0)</span>
 <span class="n">num_movies</span> <span class="o">=</span> <span class="mi">18</span>
 
@@ -628,7 +627,7 @@ Mean test set accuracy: 13.282%
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>10/10 [==============================] - 34s 3s/step
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10/10 [==============================] - 34s 3s/step
 Train Accuracy: 100.000%, Test Accuracy: 95.541%  
 10/10 [==============================] - 35s 3s/step
 Train Accuracy: 100.000%, Test Accuracy: 95.687%  
@@ -658,7 +657,7 @@ Mean test set accuracy: 96.667%
 <h4>Cross-validation results<a class="headerlink" href="#cross-validation-results" title="Permalink to this headline">¶</a></h4>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Group data together</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Group data together</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="s2">&quot;group&quot;</span><span class="p">])</span>
 <span class="n">df</span><span class="p">[</span><span class="s2">&quot;accuracy&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">test_accuracy_results</span> <span class="o">+</span> <span class="n">test_accuracy_results_random_labels</span>
 <span class="n">df</span><span class="p">[</span><span class="s2">&quot;group&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;True&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">num_splits</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;Shuffled&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">num_splits</span>
