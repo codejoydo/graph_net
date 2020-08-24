@@ -5,3 +5,5 @@
   - file: NLNN_Clip_Classifier
   - file: NLNN_CC_Randomization
   - file: NLNN_timeseries_simulation
+  - file: Linear_Regression_timeseries_simulation
+  - file: NLNN_timeseries_simulation_randomdata

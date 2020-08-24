@@ -135,19 +135,34 @@ class NLNNProcessDecode(snt.Module):
     self._num_proc_steps = num_processing_steps
     
     self._encoder = NLNN(
-        edge_model_fn=lambda: snt.nets.MLP(self._k_layers),
-        node_model_fn=lambda: snt.nets.MLP(self._k_layers))
-    self._core = NLNN(
-        edge_model_fn=lambda: snt.nets.MLP(self._k_layers),
-        node_model_fn=lambda: snt.nets.MLP(self._k_layers))
+        edge_model_fn=lambda: snt.nets.MLP(self._k_layers,
+                                           w_init=snt.initializers.RandomNormal(0,0.1),
+                                           b_init=snt.initializers.RandomNormal(0,0.1)),
+        node_model_fn=lambda: snt.nets.MLP(self._k_layers,
+                                           w_init=snt.initializers.RandomNormal(0,0.1),
+                                           b_init=snt.initializers.RandomNormal(0,0.1)))
+    self._core = []
+    for _ in self._num_proc_steps:
+        self._core.append(NLNN(
+            edge_model_fn=lambda: snt.nets.MLP(self._k_layers,
+                                               w_init=snt.initializers.RandomNormal(0,0.1),
+                                               b_init=snt.initializers.RandomNormal(0,0.1)),
+            node_model_fn=lambda: snt.nets.MLP(self._k_layers,
+                                               w_init=snt.initializers.RandomNormal(0,0.1),
+                                               b_init=snt.initializers.RandomNormal(0,0.1))))
     self._decoder = NLNN(
-        edge_model_fn=lambda: snt.nets.MLP(self._k_layers),
-        node_model_fn=lambda: snt.nets.MLP([1]))
+        edge_model_fn=lambda: snt.nets.MLP(self._k_layers,
+                                           w_init=snt.initializers.RandomNormal(0,0.1),
+                                           b_init=snt.initializers.RandomNormal(0,0.1)),
+        node_model_fn=lambda: snt.nets.MLP([1],
+                                           w_init=snt.initializers.RandomNormal(0,0.1),
+                                           b_init=snt.initializers.RandomNormal(0,0.1)))
     
   def __call__(self, inputs):
     outputs = self._encoder(inputs)
-    for _ in range(self._num_proc_steps):
-        outputs = self._core(outputs)
+    
+    for i in range(self._num_proc_steps):
+        outputs = self._core[i](outputs)
         
     outputs = self._decoder(outputs).nodes
     
@@ -156,3 +171,23 @@ class NLNNProcessDecode(snt.Module):
     outputs = tf.reshape(outputs, [-1, self._num_nodes])
     
     return outputs
+
+
+class LinearRegression(snt.Module):
+    def __init__(self, output_size, k):
+        super(LinearRegression, self).__init__()
+        
+        self.output_size = output_size
+        self.k = k
+        
+        self.beta = tf.Variable(initial_value=tf.random.normal([self.k], 0, 0.1, dtype=tf.dtypes.float64))
+        self.bias = tf.Variable(initial_value=tf.random.normal([self.output_size], 0, 0.1, dtype=tf.dtypes.float64))
+        
+    def __call__(self, inputs):
+        
+        if inputs.shape[-2:] != (self.output_size, self.k):
+            inputs = inputs.transpose((0, 2, 1))
+        
+        output = tf.linalg.matvec(inputs, self.beta) + self.bias
+        
+        return output

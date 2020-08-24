@@ -14,6 +14,9 @@ def get_data():
     """ Wrapper for extracting
             - clip fMRI time series and 
             - clip indexes as labels
+        Notes:
+            X is a list of ROI time-series for each subject and each movie, of size [#subjects x #movies]
+            ROI time-series is also a list of size [#time points, #ROIs]
     """
     args = ARGS()
     args.roi = 300 # number of ROIs
