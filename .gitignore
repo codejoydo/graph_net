@@ -1,2 +1,5 @@
 _build
 data
+__pycache__
+.ipynb_checkpoints
+logs
